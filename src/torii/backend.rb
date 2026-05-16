@@ -16,8 +16,7 @@ require_relative 'backend/client'
 require_relative 'backend/rack'
 
 module Torii
-  # Backend SDK for torii. See
-  # {https://github.com/Torii-ApS/torii torii} for documentation.
+  # Backend SDK for torii. See {https://torii.so torii.so} for documentation.
   module Backend
   end
 end
