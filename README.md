@@ -73,7 +73,7 @@ page[:next_cursor]  # => "cursor_..." or nil
 page[:has_more]     # => true / false
 
 user = torii.users.create(email: 'x@y.com')
-torii.users.update(user[:id], name: 'New name')
+torii.users.update(user[:id], name: Torii::Backend::Patch.set('New name'))
 torii.users.ban(user[:id])
 
 sessions = torii.sessions.list_for_user(user[:id])
@@ -84,13 +84,17 @@ The REST client is generated from the OpenAPI spec at `spec/server-v1.json` via 
 
 ### Partial updates
 
-`update` uses a sentinel — `Torii::Backend::OMIT` — to distinguish "leave this field untouched" from "clear this field":
+PATCH fields are tri-state: set to a value, clear (JSON null on the wire), or leave alone. Ruby keyword args can't express that on their own (a literal `nil` can't be told apart from "absent"), so every kwarg accepted by `update` must be wrapped in `Torii::Backend::Patch`:
 
 ```ruby
-torii.users.update(user_id, name: 'New name')          # leaves phone untouched
-torii.users.update(user_id, phone: nil)                # clears phone
-torii.users.update(user_id, phone: Torii::Backend::OMIT) # also leaves phone untouched
+torii.users.update(user_id,
+  name: Torii::Backend::Patch.set('New name'),  # update the name
+  phone: Torii::Backend::Patch.set(nil),           # null on the wire
+  # locale, address, avatar_url, date_of_birth omitted -> untouched
+)
 ```
+
+`Patch.set(value)` updates the field; `Patch.set(nil)` clears it; omitted kwargs are left untouched on the server.
 
 ## Verify outbound webhooks
 

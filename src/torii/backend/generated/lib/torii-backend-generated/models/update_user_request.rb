@@ -27,6 +27,28 @@ module ToriiBackendGenerated
 
     attr_accessor :date_of_birth
 
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -52,24 +74,18 @@ module ToriiBackendGenerated
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'name' => :'Object',
-        :'phone' => :'Object',
-        :'avatar_url' => :'Object',
-        :'locale' => :'Object',
-        :'address' => :'Object',
-        :'date_of_birth' => :'Object'
+        :'name' => :'String',
+        :'phone' => :'String',
+        :'avatar_url' => :'String',
+        :'locale' => :'String',
+        :'address' => :'String',
+        :'date_of_birth' => :'Date'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
-        :'name',
-        :'phone',
-        :'avatar_url',
-        :'locale',
-        :'address',
-        :'date_of_birth'
       ])
     end
 
@@ -126,7 +142,19 @@ module ToriiBackendGenerated
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
+      locale_validator = EnumAttributeValidator.new('String', ["en", "da"])
+      return false unless locale_validator.valid?(@locale)
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] locale Object to be assigned
+    def locale=(locale)
+      validator = EnumAttributeValidator.new('String', ["en", "da"])
+      unless validator.valid?(locale)
+        fail ArgumentError, "invalid value for \"locale\", must be one of #{validator.allowable_values}."
+      end
+      @locale = locale
     end
 
     # Checks equality by comparing each attribute.
