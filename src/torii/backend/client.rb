@@ -118,7 +118,7 @@ module Torii
       #
       #   client.users.update(user_id,
       #     name: Torii::Backend::Patch.set("Ada"),  # set field
-      #     phone: Torii::Backend::Patch.clear,      # null on the wire
+      #     phone: Torii::Backend::Patch.set(nil),   # null on the wire (clear)
       #   )
       #
       # Omitted kwargs are left untouched on the server. Field names map
@@ -134,11 +134,8 @@ module Torii
             raise ArgumentError, "unknown PATCH field: #{field}. Valid: #{PATCH_FIELD_MAP.keys.inspect}"
           end
 
-          if patch.set?
-            body[json_key] = patch.value
-          elsif patch.clear?
-            body[json_key] = nil
-          end
+          # Patch.set(value) emits the key; nil value → JSON null (clear).
+          body[json_key] = patch.value
         end
 
         # +debug_body+ on the generated client is the escape hatch for

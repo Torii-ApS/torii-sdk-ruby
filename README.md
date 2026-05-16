@@ -89,12 +89,12 @@ PATCH fields are tri-state: set to a value, clear (JSON null on the wire), or le
 ```ruby
 torii.users.update(user_id,
   name: Torii::Backend::Patch.set('New name'),  # update the name
-  phone: Torii::Backend::Patch.clear,           # null on the wire
+  phone: Torii::Backend::Patch.set(nil),           # null on the wire
   # locale, address, avatar_url, date_of_birth omitted -> untouched
 )
 ```
 
-`Patch.set(value)` updates the field; `Patch.clear` clears it; omitted kwargs are left untouched on the server.
+`Patch.set(value)` updates the field; `Patch.set(nil)` clears it; omitted kwargs are left untouched on the server.
 
 ## Verify outbound webhooks
 

@@ -4,40 +4,19 @@ require 'json'
 require 'webrick'
 
 # Cover the Torii::Backend::Patch wrapper and verify that users.update
-# assembles a correct PATCH body — Patch.set(value) emits the value,
-# Patch.clear emits a JSON null, omitted kwargs are absent from the body.
+# assembles a correct PATCH body — Patch.set(value) emits the value
+# (with nil → JSON null for clear); omitted kwargs are absent from the
+# body entirely.
 RSpec.describe Torii::Backend::Patch do
   describe '.set' do
-    it 'wraps a value in the :set state' do
+    it 'wraps a value' do
       p = described_class.set('Ada')
-      expect(p.set?).to be(true)
-      expect(p.clear?).to be(false)
       expect(p.value).to eq('Ada')
     end
 
-    it 'accepts an explicit nil value (still a :set, not a :clear)' do
-      # Edge case: someone could pass +Patch.set(nil)+. We treat that as
-      # "set to nil" — semantically equivalent to clear but still flagged
-      # set so the body assembly emits null. This keeps the constructor
-      # honest about state vs. value.
+    it 'accepts an explicit nil (this is how callers clear a field)' do
       p = described_class.set(nil)
-      expect(p.set?).to be(true)
       expect(p.value).to be_nil
-    end
-  end
-
-  describe '.clear' do
-    it 'returns a frozen singleton in the :clear state' do
-      expect(described_class.clear.clear?).to be(true)
-      expect(described_class.clear.set?).to be(false)
-      expect(described_class.clear).to be(described_class.clear)
-      expect(described_class.clear).to be_frozen
-    end
-  end
-
-  describe '#initialize' do
-    it 'rejects an unknown state' do
-      expect { described_class.new(:unknown) }.to raise_error(ArgumentError, /:set or :clear/)
     end
   end
 end
@@ -104,8 +83,8 @@ RSpec.describe Torii::Backend::Client, '#users.update body assembly' do
     expect(parsed).to eq('name' => 'Ada')
   end
 
-  it 'emits JSON null for Patch.clear' do
-    client.users.update(user_id, phone: Torii::Backend::Patch.clear)
+  it 'emits JSON null for Patch.set(nil)' do
+    client.users.update(user_id, phone: Torii::Backend::Patch.set(nil))
     parsed = JSON.parse(server.last_body)
     expect(parsed).to eq('phone' => nil)
     # Sanity check the literal wire format includes "null", not just
@@ -113,11 +92,11 @@ RSpec.describe Torii::Backend::Client, '#users.update body assembly' do
     expect(server.last_body).to include('"phone":null')
   end
 
-  it 'mixes set + clear + omitted in one call' do
+  it 'mixes set value + set nil + omitted in one call' do
     client.users.update(
       user_id,
       name: Torii::Backend::Patch.set('Ada'),
-      phone: Torii::Backend::Patch.clear,
+      phone: Torii::Backend::Patch.set(nil),
       # locale, address, avatar_url, date_of_birth all omitted
     )
     parsed = JSON.parse(server.last_body)
@@ -128,7 +107,7 @@ RSpec.describe Torii::Backend::Client, '#users.update body assembly' do
     client.users.update(
       user_id,
       avatar_url: Torii::Backend::Patch.set('https://example.com/a.png'),
-      date_of_birth: Torii::Backend::Patch.clear,
+      date_of_birth: Torii::Backend::Patch.set(nil),
     )
     parsed = JSON.parse(server.last_body)
     expect(parsed).to eq(

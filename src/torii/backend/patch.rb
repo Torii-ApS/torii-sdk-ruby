@@ -2,34 +2,22 @@
 
 module Torii
   module Backend
-    # Tri-state wrapper for PATCH body fields.
+    # Tri-state wrapper for PATCH body fields. Mirrors the server-side
+    # Kotlin PatchValue<T> (Included + NotIncluded; Included(nil) clears).
     #
-    # - Patch.set(value) -> server updates field to value
-    # - Patch.clear      -> server clears field (JSON null on the wire)
-    # - omit the kwarg entirely -> server leaves field alone
+    # - Patch.set(value) with a non-nil value -> server updates field
+    # - Patch.set(nil)                        -> server clears field (JSON null)
+    # - omit the kwarg entirely               -> server leaves field unchanged
     class Patch
-      attr_reader :state, :value
+      attr_reader :value
 
-      STATE_SET   = :set
-      STATE_CLEAR = :clear
-
-      def initialize(state, value = nil)
-        raise ArgumentError, "state must be :set or :clear" unless [STATE_SET, STATE_CLEAR].include?(state)
-        @state = state
+      def initialize(value)
         @value = value
       end
 
       def self.set(value)
-        new(STATE_SET, value)
+        new(value)
       end
-
-      CLEAR = new(STATE_CLEAR).freeze
-      def self.clear
-        CLEAR
-      end
-
-      def set?;   @state == STATE_SET;   end
-      def clear?; @state == STATE_CLEAR; end
     end
   end
 end
