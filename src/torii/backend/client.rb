@@ -4,6 +4,7 @@ require 'uri'
 
 require_relative '../../torii-backend-generated'
 require_relative 'errors'
+require_relative 'patch'
 require_relative 'version'
 
 module Torii
@@ -11,13 +12,6 @@ module Torii
     # Default torii API base URL. Override via +api_url+ for staging or
     # self-hosted.
     DEFAULT_API_URL = 'https://api.torii.so'
-
-    # Sentinel for "field omitted from PATCH body". Lets callers say
-    # +update(name: nil)+ to clear a field versus +update(name: OMIT)+
-    # (equivalent to omitting the argument entirely).
-    OMIT = Object.new
-    def OMIT.inspect = 'Torii::Backend::OMIT'
-    OMIT.freeze
 
     # Top-level entry point for the REST surface.
     #
@@ -118,19 +112,60 @@ module Torii
         model_to_hash(@api.create_user(body, header_params: auth_headers))
       end
 
-      # Patch a user. Pass +Torii::Backend::OMIT+ (or omit the argument)
-      # to leave a field untouched. Pass +nil+ to explicitly clear it.
-      def update(user_id, name: OMIT, phone: OMIT, avatar_url: OMIT, locale: OMIT, address: OMIT, date_of_birth: OMIT)
-        attrs = {}
-        attrs[:name] = name unless name.equal?(OMIT)
-        attrs[:phone] = phone unless phone.equal?(OMIT)
-        attrs[:avatar_url] = avatar_url unless avatar_url.equal?(OMIT)
-        attrs[:locale] = locale unless locale.equal?(OMIT)
-        attrs[:address] = address unless address.equal?(OMIT)
-        attrs[:date_of_birth] = date_of_birth unless date_of_birth.equal?(OMIT)
-        body = ToriiBackendGenerated::UpdateUserRequest.new(attrs)
-        model_to_hash(@api.update_user(user_id, body, header_params: auth_headers))
+      # PATCH a user. Each kwarg must be a {Torii::Backend::Patch}
+      # instance — Ruby keyword args can't distinguish "absent" from
+      # "explicit nil" on their own, so we use a wrapper:
+      #
+      #   client.users.update(user_id,
+      #     name: Torii::Backend::Patch.set("Ada"),  # set field
+      #     phone: Torii::Backend::Patch.clear,      # null on the wire
+      #   )
+      #
+      # Omitted kwargs are left untouched on the server. Field names map
+      # to the JSON keys the server expects (camelCase).
+      def update(user_id, **patches)
+        body = {}
+        patches.each do |field, patch|
+          unless patch.is_a?(Patch)
+            raise ArgumentError, "kwarg #{field} must be a Torii::Backend::Patch (got #{patch.class})"
+          end
+
+          json_key = PATCH_FIELD_MAP.fetch(field) do
+            raise ArgumentError, "unknown PATCH field: #{field}. Valid: #{PATCH_FIELD_MAP.keys.inspect}"
+          end
+
+          if patch.set?
+            body[json_key] = patch.value
+          elsif patch.clear?
+            body[json_key] = nil
+          end
+        end
+
+        # +debug_body+ on the generated client is the escape hatch for
+        # sending a pre-rendered request body. The generated
+        # +UpdateUserRequest+ model strips nil-valued attributes when
+        # serialising, which would defeat the +Patch.clear+ case, so we
+        # bypass it and ship our hand-built JSON instead.
+        result = @api.update_user(
+          user_id,
+          ToriiBackendGenerated::UpdateUserRequest.new,
+          debug_body: body.to_json,
+          header_params: auth_headers,
+        )
+        model_to_hash(result)
       end
+
+      # Map of Ruby snake_case kwargs to the JSON keys the server
+      # expects on the PATCH body. Centralised so +update+ can validate
+      # field names with a single +fetch+.
+      PATCH_FIELD_MAP = {
+        name: 'name',
+        phone: 'phone',
+        avatar_url: 'avatarUrl',
+        locale: 'locale',
+        address: 'address',
+        date_of_birth: 'dateOfBirth',
+      }.freeze
 
       def delete(user_id)
         @api.delete_user(user_id, header_params: auth_headers)

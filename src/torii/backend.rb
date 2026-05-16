@@ -11,6 +11,7 @@ require_relative 'backend/auth'
 require_relative 'backend/verify'
 require_relative 'backend/authenticate_request'
 require_relative 'backend/webhook'
+require_relative 'backend/patch'
 require_relative 'backend/client'
 require_relative 'backend/rack'
 

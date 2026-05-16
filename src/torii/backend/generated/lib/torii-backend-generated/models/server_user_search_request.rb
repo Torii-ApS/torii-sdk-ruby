@@ -25,6 +25,28 @@ module ToriiBackendGenerated
 
     attr_accessor :created_before
 
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -49,9 +71,9 @@ module ToriiBackendGenerated
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'name' => :'Object',
-        :'email' => :'Object',
-        :'statuses' => :'Object',
+        :'name' => :'String',
+        :'email' => :'String',
+        :'statuses' => :'Array<String>',
         :'created_after' => :'Time',
         :'created_before' => :'Time'
       }
@@ -60,9 +82,6 @@ module ToriiBackendGenerated
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
-        :'name',
-        :'email',
-        :'statuses',
         :'created_after',
         :'created_before'
       ])
@@ -93,7 +112,9 @@ module ToriiBackendGenerated
       end
 
       if attributes.key?(:'statuses')
-        self.statuses = attributes[:'statuses']
+        if (value = attributes[:'statuses']).is_a?(Array)
+          self.statuses = value
+        end
       end
 
       if attributes.key?(:'created_after')
