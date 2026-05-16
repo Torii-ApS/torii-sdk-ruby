@@ -22,7 +22,7 @@ bundle install
 bundle exec rspec
 ```
 
-The REST client under `lib/torii/backend/generated/` is produced by [`openapi-generator`](https://openapi-generator.tech/) from `spec/server-v1.json` (target: `ruby`, Typhoeus-backed). Don't hand-edit it. To regenerate after a spec update:
+The REST client under `src/torii/backend/generated/` is produced by [`openapi-generator`](https://openapi-generator.tech/) from `spec/server-v1.json` (target: `ruby`, Typhoeus-backed). Don't hand-edit it. To regenerate after a spec update:
 
 ```sh
 npx -y @openapitools/openapi-generator-cli generate \

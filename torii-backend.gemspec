@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lib = File.expand_path('lib', __dir__)
+lib = File.expand_path('src', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'torii/backend/version'
 
@@ -29,11 +29,11 @@ Gem::Specification.new do |spec|
   }
 
   spec.files = Dir[
-    'lib/**/*.rb',
+    'src/**/*.rb',
     'spec/server-v1.json',
     'README.md',
   ]
-  spec.require_paths = ['lib']
+  spec.require_paths = ['src']
 
   # Runtime
   # +typhoeus+ is what openapi-generator's Ruby template uses under the
