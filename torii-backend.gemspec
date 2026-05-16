@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
     events from torii. Ships with Rack middleware that works with Rails,
     Sinatra, Roda, and anything else Rack-compatible.
   DESC
-  spec.homepage = 'https://github.com/GOOD-Code-ApS/torii-sdk-ruby'
+  spec.homepage = 'https://github.com/Torii-ApS/torii-sdk-ruby'
   spec.license  = 'MIT'
 
   spec.required_ruby_version = '>= 3.1'

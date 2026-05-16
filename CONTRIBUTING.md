@@ -16,7 +16,7 @@ For security-sensitive issues (anything that could let an attacker forge or bypa
 ## Development
 
 ```sh
-git clone https://github.com/GOOD-Code-ApS/torii-sdk-ruby
+git clone https://github.com/Torii-ApS/torii-sdk-ruby
 cd torii-sdk-ruby
 bundle install
 bundle exec rspec

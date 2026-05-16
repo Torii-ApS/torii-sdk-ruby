@@ -9,7 +9,7 @@ module Torii
     # Verify an outbound torii webhook signature.
     #
     # WARNING: torii's outbound webhook subsystem has not shipped yet
-    # (tracked in {https://github.com/GOOD-Code-ApS/torii/issues/424 #424}
+    # (tracked in {https://github.com/Torii-ApS/torii/issues/424 #424}
     # Phase 0.5). This stub keeps the SDK surface stable so adopting it
     # later won't be a breaking change for callers.
     def verify_webhook(secret:, headers:, payload:) # rubocop:disable Lint/UnusedMethodArgument
