@@ -14,31 +14,45 @@ require 'date'
 require 'time'
 
 module ToriiBackendGenerated
+  # An end-user belonging to one of your environments.
   class UserResponse < ApiModelBase
+    # Unique identifier for this user.
     attr_accessor :id
 
+    # Identifier of the environment this user belongs to.
     attr_accessor :environment_id
 
+    # Full name on the profile, if any.
     attr_accessor :name
 
+    # Phone number on the profile, if any. Not guaranteed to be verified.
     attr_accessor :phone
 
+    # URL of the user's avatar image, if any.
     attr_accessor :avatar_url
 
+    # Preferred locale for emails and UI messages.
     attr_accessor :locale
 
+    # Free-form address string, if provided.
     attr_accessor :address
 
+    # Date of birth in ISO-8601 (YYYY-MM-DD), if provided.
     attr_accessor :date_of_birth
 
+    # Lifecycle status of the user (e.g. active, banned).
     attr_accessor :status
 
+    # When this user was created (ISO-8601 UTC).
     attr_accessor :created_at
 
+    # When this user was last modified (ISO-8601 UTC).
     attr_accessor :updated_at
 
+    # Primary email on the profile, if any. Not guaranteed to be verified.
     attr_accessor :email
 
+    # When this user was deleted, if soft-deleted. Null for active users.
     attr_accessor :deleted_at
 
     class EnumAttributeValidator

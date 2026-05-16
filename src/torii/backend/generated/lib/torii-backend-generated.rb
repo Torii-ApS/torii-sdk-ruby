@@ -20,6 +20,7 @@ require 'torii-backend-generated/configuration'
 # Models
 require 'torii-backend-generated/models/create_user_request'
 require 'torii-backend-generated/models/cursor_page_response_user_response'
+require 'torii-backend-generated/models/problem_detail'
 require 'torii-backend-generated/models/server_user_search_request'
 require 'torii-backend-generated/models/update_user_request'
 require 'torii-backend-generated/models/user_response'
