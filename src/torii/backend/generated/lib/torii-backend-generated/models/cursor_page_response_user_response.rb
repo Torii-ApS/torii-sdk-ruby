@@ -14,11 +14,15 @@ require 'date'
 require 'time'
 
 module ToriiBackendGenerated
+  # A single page of results in a cursor-paginated list. Pass `nextCursor` as the `cursor` query parameter to fetch the following page.
   class CursorPageResponseUserResponse < ApiModelBase
+    # Items in this page, in stable order.
     attr_accessor :items
 
+    # Cursor to pass to fetch the next page. Null when this is the last page.
     attr_accessor :next_cursor
 
+    # True if more pages are available (equivalent to `nextCursor != null`).
     attr_accessor :has_more
 
     # Attribute mapping from ruby-style variable name to JSON key.

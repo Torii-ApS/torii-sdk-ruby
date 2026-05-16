@@ -14,21 +14,30 @@ require 'date'
 require 'time'
 
 module ToriiBackendGenerated
+  # An active end-user session in your environment.
   class UserSessionResponse < ApiModelBase
+    # Unique identifier for this session.
     attr_accessor :id
 
+    # Identifier of the end-user this session belongs to.
     attr_accessor :user_id
 
+    # Identifier of the environment this session belongs to.
     attr_accessor :environment_id
 
+    # Raw User-Agent string captured when the session was created.
     attr_accessor :user_agent
 
+    # IP address captured when the session was created.
     attr_accessor :ip_address
 
+    # When this session was created (ISO-8601 UTC).
     attr_accessor :created_at
 
+    # When this session expires (ISO-8601 UTC).
     attr_accessor :expires_at
 
+    # When this session was last seen by the API (ISO-8601 UTC).
     attr_accessor :last_used_at
 
     # Attribute mapping from ruby-style variable name to JSON key.

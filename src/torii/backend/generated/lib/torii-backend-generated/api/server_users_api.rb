@@ -20,7 +20,8 @@ module ToriiBackendGenerated
       @api_client = api_client
     end
     # Ban user
-    # @param user_id [String] 
+    # Marks the user as banned and revokes all their active sessions.
+    # @param user_id [String] Identifier of the user to ban.
     # @param [Hash] opts the optional parameters
     # @return [UserResponse]
     def ban_user(user_id, opts = {})
@@ -29,7 +30,8 @@ module ToriiBackendGenerated
     end
 
     # Ban user
-    # @param user_id [String] 
+    # Marks the user as banned and revokes all their active sessions.
+    # @param user_id [String] Identifier of the user to ban.
     # @param [Hash] opts the optional parameters
     # @return [Array<(UserResponse, Integer, Hash)>] UserResponse data, response status code and response headers
     def ban_user_with_http_info(user_id, opts = {})
@@ -49,7 +51,7 @@ module ToriiBackendGenerated
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'application/problem+json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -81,6 +83,7 @@ module ToriiBackendGenerated
     end
 
     # Create user
+    # Creates an end-user in your environment. All body fields are optional; supply at minimum an email if you want the user to be able to sign in via email + password.
     # @param create_user_request [CreateUserRequest] 
     # @param [Hash] opts the optional parameters
     # @return [UserResponse]
@@ -90,6 +93,7 @@ module ToriiBackendGenerated
     end
 
     # Create user
+    # Creates an end-user in your environment. All body fields are optional; supply at minimum an email if you want the user to be able to sign in via email + password.
     # @param create_user_request [CreateUserRequest] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(UserResponse, Integer, Hash)>] UserResponse data, response status code and response headers
@@ -110,7 +114,7 @@ module ToriiBackendGenerated
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'application/problem+json']) unless header_params['Accept']
       # HTTP header 'Content-Type'
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
@@ -147,7 +151,8 @@ module ToriiBackendGenerated
     end
 
     # Delete user
-    # @param user_id [String] 
+    # Soft-deletes the user. Idempotent: returns 204 even if the user was already deleted.
+    # @param user_id [String] Identifier of the user to delete.
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def delete_user(user_id, opts = {})
@@ -156,7 +161,8 @@ module ToriiBackendGenerated
     end
 
     # Delete user
-    # @param user_id [String] 
+    # Soft-deletes the user. Idempotent: returns 204 even if the user was already deleted.
+    # @param user_id [String] Identifier of the user to delete.
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def delete_user_with_http_info(user_id, opts = {})
@@ -175,6 +181,8 @@ module ToriiBackendGenerated
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/problem+json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -206,7 +214,8 @@ module ToriiBackendGenerated
     end
 
     # Get user
-    # @param user_id [String] 
+    # Returns the full profile for one end-user.
+    # @param user_id [String] Identifier of the user to fetch.
     # @param [Hash] opts the optional parameters
     # @return [UserResponse]
     def get_user(user_id, opts = {})
@@ -215,7 +224,8 @@ module ToriiBackendGenerated
     end
 
     # Get user
-    # @param user_id [String] 
+    # Returns the full profile for one end-user.
+    # @param user_id [String] Identifier of the user to fetch.
     # @param [Hash] opts the optional parameters
     # @return [Array<(UserResponse, Integer, Hash)>] UserResponse data, response status code and response headers
     def get_user_with_http_info(user_id, opts = {})
@@ -235,7 +245,7 @@ module ToriiBackendGenerated
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'application/problem+json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -267,9 +277,10 @@ module ToriiBackendGenerated
     end
 
     # Search users
+    # Returns a cursor-paginated page of end-users in the environment matching the optional filters. Filters use the same tri-state PATCH semantics as `UpdateUserRequest`: omit a field to skip that filter, send a value to require it, send null to require null. Uses POST so the filter body can be sent without URL-encoding.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :limit  (default to 20)
-    # @option opts [String] :cursor 
+    # @option opts [Integer] :limit Maximum number of items in the returned page (default 20). (default to 20)
+    # @option opts [String] :cursor Opaque cursor returned by the previous page&#39;s &#x60;nextCursor&#x60;. Omit to fetch the first page.
     # @option opts [ServerUserSearchRequest] :server_user_search_request 
     # @return [CursorPageResponseUserResponse]
     def search_users(opts = {})
@@ -278,9 +289,10 @@ module ToriiBackendGenerated
     end
 
     # Search users
+    # Returns a cursor-paginated page of end-users in the environment matching the optional filters. Filters use the same tri-state PATCH semantics as &#x60;UpdateUserRequest&#x60;: omit a field to skip that filter, send a value to require it, send null to require null. Uses POST so the filter body can be sent without URL-encoding.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :limit  (default to 20)
-    # @option opts [String] :cursor 
+    # @option opts [Integer] :limit Maximum number of items in the returned page (default 20). (default to 20)
+    # @option opts [String] :cursor Opaque cursor returned by the previous page&#39;s &#x60;nextCursor&#x60;. Omit to fetch the first page.
     # @option opts [ServerUserSearchRequest] :server_user_search_request 
     # @return [Array<(CursorPageResponseUserResponse, Integer, Hash)>] CursorPageResponseUserResponse data, response status code and response headers
     def search_users_with_http_info(opts = {})
@@ -298,7 +310,7 @@ module ToriiBackendGenerated
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'application/problem+json']) unless header_params['Accept']
       # HTTP header 'Content-Type'
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
@@ -335,7 +347,8 @@ module ToriiBackendGenerated
     end
 
     # Unban user
-    # @param user_id [String] 
+    # Reverses a previous ban. The user can sign in again on next request.
+    # @param user_id [String] Identifier of the user to unban.
     # @param [Hash] opts the optional parameters
     # @return [UserResponse]
     def unban_user(user_id, opts = {})
@@ -344,7 +357,8 @@ module ToriiBackendGenerated
     end
 
     # Unban user
-    # @param user_id [String] 
+    # Reverses a previous ban. The user can sign in again on next request.
+    # @param user_id [String] Identifier of the user to unban.
     # @param [Hash] opts the optional parameters
     # @return [Array<(UserResponse, Integer, Hash)>] UserResponse data, response status code and response headers
     def unban_user_with_http_info(user_id, opts = {})
@@ -364,7 +378,7 @@ module ToriiBackendGenerated
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'application/problem+json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -396,7 +410,8 @@ module ToriiBackendGenerated
     end
 
     # Update user
-    # @param user_id [String] 
+    # Partial update with tri-state PATCH semantics. Every field in `UpdateUserRequest` is tri-state: omit the key to leave the field unchanged, send a non-null value to set it, or send JSON null to clear it.
+    # @param user_id [String] Identifier of the user to update.
     # @param update_user_request [UpdateUserRequest] 
     # @param [Hash] opts the optional parameters
     # @return [UserResponse]
@@ -406,7 +421,8 @@ module ToriiBackendGenerated
     end
 
     # Update user
-    # @param user_id [String] 
+    # Partial update with tri-state PATCH semantics. Every field in &#x60;UpdateUserRequest&#x60; is tri-state: omit the key to leave the field unchanged, send a non-null value to set it, or send JSON null to clear it.
+    # @param user_id [String] Identifier of the user to update.
     # @param update_user_request [UpdateUserRequest] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(UserResponse, Integer, Hash)>] UserResponse data, response status code and response headers
@@ -431,7 +447,7 @@ module ToriiBackendGenerated
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'application/problem+json']) unless header_params['Accept']
       # HTTP header 'Content-Type'
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?

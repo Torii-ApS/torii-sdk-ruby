@@ -14,17 +14,24 @@ require 'date'
 require 'time'
 
 module ToriiBackendGenerated
+  # Request body for creating an end-user in your environment. All fields are optional; supply at minimum an email if you want the user to be able to sign in via email + password.
   class CreateUserRequest < ApiModelBase
+    # Primary email for the new user. If omitted, the user is created without a sign-in identity.
     attr_accessor :email
 
+    # Initial password. Subject to the environment's password policy. Omit to create a passwordless user (e.g. social-only).
     attr_accessor :password
 
+    # Display name to seed on the profile.
     attr_accessor :name
 
+    # Phone number to seed on the profile.
     attr_accessor :phone
 
+    # Postal address to seed on the profile.
     attr_accessor :address
 
+    # Date of birth in ISO-8601 (YYYY-MM-DD).
     attr_accessor :date_of_birth
 
     # Attribute mapping from ruby-style variable name to JSON key.

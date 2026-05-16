@@ -123,9 +123,9 @@ RSpec.describe Torii::Backend, 'authenticate_request' do
 end
 
 RSpec.describe Torii::Backend, 'verify_webhook (stub)' do
-  it 'raises AuthError indicating the subsystem has not shipped' do
+  it 'raises AuthError indicating the subsystem is not yet available' do
     expect do
       Torii::Backend.verify_webhook(secret: 's', headers: {}, payload: 'p')
-    end.to raise_error(Torii::Backend::AuthError, /has not shipped yet/)
+    end.to raise_error(Torii::Backend::AuthError, /not yet available/)
   end
 end

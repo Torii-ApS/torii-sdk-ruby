@@ -14,57 +14,28 @@ require 'date'
 require 'time'
 
 module ToriiBackendGenerated
-  # PATCH body for updating an end-user. Every field is tri-state: omit the key entirely to leave the field unchanged, send a non-null value to set it, or send JSON null to clear it.
-  class UpdateUserRequest < ApiModelBase
-    # New display name. Send null to clear; omit to leave unchanged.
-    attr_accessor :name
+  class ProblemDetail < ApiModelBase
+    attr_accessor :type
 
-    # New phone number. Send null to clear; omit to leave unchanged.
-    attr_accessor :phone
+    attr_accessor :title
 
-    # New avatar URL. Send null to clear; omit to leave unchanged.
-    attr_accessor :avatar_url
+    attr_accessor :status
 
-    # New preferred locale. Send null to clear; omit to leave unchanged.
-    attr_accessor :locale
+    attr_accessor :detail
 
-    # New postal address. Send null to clear; omit to leave unchanged.
-    attr_accessor :address
+    attr_accessor :instance
 
-    # New date of birth (YYYY-MM-DD). Send null to clear; omit to leave unchanged.
-    attr_accessor :date_of_birth
-
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
+    attr_accessor :properties
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'name' => :'name',
-        :'phone' => :'phone',
-        :'avatar_url' => :'avatarUrl',
-        :'locale' => :'locale',
-        :'address' => :'address',
-        :'date_of_birth' => :'dateOfBirth'
+        :'type' => :'type',
+        :'title' => :'title',
+        :'status' => :'status',
+        :'detail' => :'detail',
+        :'instance' => :'instance',
+        :'properties' => :'properties'
       }
     end
 
@@ -81,24 +52,18 @@ module ToriiBackendGenerated
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'name' => :'String',
-        :'phone' => :'String',
-        :'avatar_url' => :'String',
-        :'locale' => :'String',
-        :'address' => :'String',
-        :'date_of_birth' => :'Date'
+        :'type' => :'String',
+        :'title' => :'String',
+        :'status' => :'Integer',
+        :'detail' => :'String',
+        :'instance' => :'String',
+        :'properties' => :'Hash<String, Object>'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
-        :'name',
-        :'phone',
-        :'avatar_url',
-        :'locale',
-        :'address',
-        :'date_of_birth'
       ])
     end
 
@@ -106,40 +71,42 @@ module ToriiBackendGenerated
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `ToriiBackendGenerated::UpdateUserRequest` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `ToriiBackendGenerated::ProblemDetail` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       acceptable_attribute_map = self.class.acceptable_attribute_map
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!acceptable_attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `ToriiBackendGenerated::UpdateUserRequest`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `ToriiBackendGenerated::ProblemDetail`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'name')
-        self.name = attributes[:'name']
+      if attributes.key?(:'type')
+        self.type = attributes[:'type']
       end
 
-      if attributes.key?(:'phone')
-        self.phone = attributes[:'phone']
+      if attributes.key?(:'title')
+        self.title = attributes[:'title']
       end
 
-      if attributes.key?(:'avatar_url')
-        self.avatar_url = attributes[:'avatar_url']
+      if attributes.key?(:'status')
+        self.status = attributes[:'status']
       end
 
-      if attributes.key?(:'locale')
-        self.locale = attributes[:'locale']
+      if attributes.key?(:'detail')
+        self.detail = attributes[:'detail']
       end
 
-      if attributes.key?(:'address')
-        self.address = attributes[:'address']
+      if attributes.key?(:'instance')
+        self.instance = attributes[:'instance']
       end
 
-      if attributes.key?(:'date_of_birth')
-        self.date_of_birth = attributes[:'date_of_birth']
+      if attributes.key?(:'properties')
+        if (value = attributes[:'properties']).is_a?(Hash)
+          self.properties = value
+        end
       end
     end
 
@@ -155,19 +122,7 @@ module ToriiBackendGenerated
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      locale_validator = EnumAttributeValidator.new('String', ["en", "da"])
-      return false unless locale_validator.valid?(@locale)
       true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] locale Object to be assigned
-    def locale=(locale)
-      validator = EnumAttributeValidator.new('String', ["en", "da"])
-      unless validator.valid?(locale)
-        fail ArgumentError, "invalid value for \"locale\", must be one of #{validator.allowable_values}."
-      end
-      @locale = locale
     end
 
     # Checks equality by comparing each attribute.
@@ -175,12 +130,12 @@ module ToriiBackendGenerated
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          name == o.name &&
-          phone == o.phone &&
-          avatar_url == o.avatar_url &&
-          locale == o.locale &&
-          address == o.address &&
-          date_of_birth == o.date_of_birth
+          type == o.type &&
+          title == o.title &&
+          status == o.status &&
+          detail == o.detail &&
+          instance == o.instance &&
+          properties == o.properties
     end
 
     # @see the `==` method
@@ -192,7 +147,7 @@ module ToriiBackendGenerated
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, phone, avatar_url, locale, address, date_of_birth].hash
+      [type, title, status, detail, instance, properties].hash
     end
 
     # Builds the object from hash

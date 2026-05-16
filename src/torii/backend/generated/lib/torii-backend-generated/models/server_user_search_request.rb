@@ -14,15 +14,21 @@ require 'date'
 require 'time'
 
 module ToriiBackendGenerated
+  # Optional filter body for `POST /users/search`. Every field is tri-state: omit to skip that filter, send a value to require it, send JSON null to require null.
   class ServerUserSearchRequest < ApiModelBase
+    # Filter by name (exact match). Send null to require users with no name.
     attr_accessor :name
 
+    # Filter by primary email (exact match). Send null to require users with no email.
     attr_accessor :email
 
+    # Filter by user status. Returns users matching any of the supplied statuses.
     attr_accessor :statuses
 
+    # Only return users created at or after this instant (ISO-8601 UTC).
     attr_accessor :created_after
 
+    # Only return users created at or before this instant (ISO-8601 UTC).
     attr_accessor :created_before
 
     class EnumAttributeValidator
@@ -82,6 +88,8 @@ module ToriiBackendGenerated
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'name',
+        :'email',
         :'created_after',
         :'created_before'
       ])

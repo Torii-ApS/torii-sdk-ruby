@@ -20,7 +20,8 @@ module ToriiBackendGenerated
       @api_client = api_client
     end
     # List user sessions
-    # @param user_id [String] 
+    # Returns all active (unexpired, unrevoked) sessions for the user, ordered by most recently used.
+    # @param user_id [String] Identifier of the user whose sessions to list.
     # @param [Hash] opts the optional parameters
     # @return [Array<UserSessionResponse>]
     def list_sessions(user_id, opts = {})
@@ -29,7 +30,8 @@ module ToriiBackendGenerated
     end
 
     # List user sessions
-    # @param user_id [String] 
+    # Returns all active (unexpired, unrevoked) sessions for the user, ordered by most recently used.
+    # @param user_id [String] Identifier of the user whose sessions to list.
     # @param [Hash] opts the optional parameters
     # @return [Array<(Array<UserSessionResponse>, Integer, Hash)>] Array<UserSessionResponse> data, response status code and response headers
     def list_sessions_with_http_info(user_id, opts = {})
@@ -49,7 +51,7 @@ module ToriiBackendGenerated
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'application/problem+json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -81,7 +83,8 @@ module ToriiBackendGenerated
     end
 
     # Revoke all sessions
-    # @param user_id [String] 
+    # Immediately revokes every active session for the user. Idempotent.
+    # @param user_id [String] Identifier of the user whose sessions to revoke.
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def revoke_all_sessions(user_id, opts = {})
@@ -90,7 +93,8 @@ module ToriiBackendGenerated
     end
 
     # Revoke all sessions
-    # @param user_id [String] 
+    # Immediately revokes every active session for the user. Idempotent.
+    # @param user_id [String] Identifier of the user whose sessions to revoke.
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def revoke_all_sessions_with_http_info(user_id, opts = {})
@@ -109,6 +113,8 @@ module ToriiBackendGenerated
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/problem+json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -140,8 +146,9 @@ module ToriiBackendGenerated
     end
 
     # Revoke specific session
-    # @param user_id [String] 
-    # @param session_id [String] 
+    # Revokes a single session by id. Idempotent: returns 204 even if the session was already revoked or expired.
+    # @param user_id [String] Identifier of the user who owns the session.
+    # @param session_id [String] Identifier of the session to revoke.
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def revoke_session(user_id, session_id, opts = {})
@@ -150,8 +157,9 @@ module ToriiBackendGenerated
     end
 
     # Revoke specific session
-    # @param user_id [String] 
-    # @param session_id [String] 
+    # Revokes a single session by id. Idempotent: returns 204 even if the session was already revoked or expired.
+    # @param user_id [String] Identifier of the user who owns the session.
+    # @param session_id [String] Identifier of the session to revoke.
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def revoke_session_with_http_info(user_id, session_id, opts = {})
@@ -174,6 +182,8 @@ module ToriiBackendGenerated
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/problem+json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
