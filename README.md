@@ -103,7 +103,7 @@ PATCH fields are tri-state: set to a value, clear (JSON null on the wire), or le
 torii.users.update(user_id,
   name: Torii::Backend::Patch.set('New name'),  # update the name
   phone: Torii::Backend::Patch.set(nil),        # null on the wire
-  # locale, address, avatar_url, date_of_birth omitted -> untouched
+  # locale, address, date_of_birth omitted -> untouched
 )
 ```
 

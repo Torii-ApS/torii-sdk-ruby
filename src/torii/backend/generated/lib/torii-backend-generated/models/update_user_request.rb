@@ -22,9 +22,6 @@ module ToriiBackendGenerated
     # New phone number. Send null to clear; omit to leave unchanged.
     attr_accessor :phone
 
-    # New avatar URL. Send null to clear; omit to leave unchanged.
-    attr_accessor :avatar_url
-
     # New preferred locale. Send null to clear; omit to leave unchanged.
     attr_accessor :locale
 
@@ -61,7 +58,6 @@ module ToriiBackendGenerated
       {
         :'name' => :'name',
         :'phone' => :'phone',
-        :'avatar_url' => :'avatarUrl',
         :'locale' => :'locale',
         :'address' => :'address',
         :'date_of_birth' => :'dateOfBirth'
@@ -83,7 +79,6 @@ module ToriiBackendGenerated
       {
         :'name' => :'String',
         :'phone' => :'String',
-        :'avatar_url' => :'String',
         :'locale' => :'String',
         :'address' => :'String',
         :'date_of_birth' => :'Date'
@@ -95,7 +90,6 @@ module ToriiBackendGenerated
       Set.new([
         :'name',
         :'phone',
-        :'avatar_url',
         :'locale',
         :'address',
         :'date_of_birth'
@@ -124,10 +118,6 @@ module ToriiBackendGenerated
 
       if attributes.key?(:'phone')
         self.phone = attributes[:'phone']
-      end
-
-      if attributes.key?(:'avatar_url')
-        self.avatar_url = attributes[:'avatar_url']
       end
 
       if attributes.key?(:'locale')
@@ -177,7 +167,6 @@ module ToriiBackendGenerated
       self.class == o.class &&
           name == o.name &&
           phone == o.phone &&
-          avatar_url == o.avatar_url &&
           locale == o.locale &&
           address == o.address &&
           date_of_birth == o.date_of_birth
@@ -192,7 +181,7 @@ module ToriiBackendGenerated
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, phone, avatar_url, locale, address, date_of_birth].hash
+      [name, phone, locale, address, date_of_birth].hash
     end
 
     # Builds the object from hash

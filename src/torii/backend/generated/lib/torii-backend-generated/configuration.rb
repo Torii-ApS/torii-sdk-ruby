@@ -158,7 +158,7 @@ module ToriiBackendGenerated
 
     def initialize
       @scheme = 'http'
-      @host = 'localhost:51129'
+      @host = 'localhost:52334'
       @base_path = ''
       @server_index = nil
       @server_operation_index = {}
@@ -251,7 +251,7 @@ module ToriiBackendGenerated
     def server_settings
       [
         {
-          url: "http://localhost:51129",
+          url: "http://localhost:52334",
           description: "Generated server url",
         }
       ]

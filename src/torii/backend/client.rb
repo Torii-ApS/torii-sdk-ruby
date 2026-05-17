@@ -158,7 +158,6 @@ module Torii
       PATCH_FIELD_MAP = {
         name: 'name',
         phone: 'phone',
-        avatar_url: 'avatarUrl',
         locale: 'locale',
         address: 'address',
         date_of_birth: 'dateOfBirth',

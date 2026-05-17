@@ -97,7 +97,7 @@ RSpec.describe Torii::Backend::Client, '#users.update body assembly' do
       user_id,
       name: Torii::Backend::Patch.set('Ada'),
       phone: Torii::Backend::Patch.set(nil),
-      # locale, address, avatar_url, date_of_birth all omitted
+      # locale, address, date_of_birth all omitted
     )
     parsed = JSON.parse(server.last_body)
     expect(parsed).to eq('name' => 'Ada', 'phone' => nil)
@@ -106,13 +106,11 @@ RSpec.describe Torii::Backend::Client, '#users.update body assembly' do
   it 'translates snake_case kwargs to camelCase JSON keys' do
     client.users.update(
       user_id,
-      avatar_url: Torii::Backend::Patch.set('https://example.com/a.png'),
-      date_of_birth: Torii::Backend::Patch.set(nil),
+      date_of_birth: Torii::Backend::Patch.set('1990-01-01'),
     )
     parsed = JSON.parse(server.last_body)
     expect(parsed).to eq(
-      'avatarUrl' => 'https://example.com/a.png',
-      'dateOfBirth' => nil,
+      'dateOfBirth' => '1990-01-01',
     )
   end
 

@@ -14,12 +14,12 @@ require 'date'
 require 'time'
 
 module ToriiBackendGenerated
-  # Optional filter body for `POST /users/search`. Every field is tri-state: omit to skip that filter, send a value to require it, send JSON null to require null.
+  # Optional filter body for `POST /users/search`. Every field is tri-state: omit to skip that filter, send a value to require it. Fields whose inner type is nullable (currently `name`, `email`) additionally accept JSON null to filter for users where that column is null; the non-nullable `statuses` field rejects null.
   class ServerUserSearchRequest < ApiModelBase
-    # Filter by name (exact match). Send null to require users with no name.
+    # Filter by name (case-insensitive substring match). Send null to require users with no name.
     attr_accessor :name
 
-    # Filter by primary email (exact match). Send null to require users with no email.
+    # Filter by primary email (case-insensitive substring match). Send null to require users with no email.
     attr_accessor :email
 
     # Filter by user status. Returns users matching any of the supplied statuses.
