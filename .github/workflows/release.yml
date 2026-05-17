@@ -33,6 +33,13 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
 
+      # rubygems/release-gem@v1 calls `gem exec rubygems-await` and signs
+      # via `gem exec sigstore-cli`. `gem exec` was added in RubyGems 3.5;
+      # Ruby 3.1 ships 3.3.x, so we upgrade to get the newer CLI without
+      # changing the runtime artifact.
+      - name: Upgrade RubyGems
+        run: gem update --system --no-document
+
       - name: Assert tag matches gem version
         run: |
           GEM_VERSION=$(ruby -Isrc -e "require 'torii/backend/version'; puts Torii::Backend::VERSION")
