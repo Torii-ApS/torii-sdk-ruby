@@ -44,6 +44,7 @@ Gem::Specification.new do |spec|
 
   # Development
   spec.add_development_dependency 'rack', '~> 3.1'
+  spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rspec', '~> 3.13'
   # WEBrick was removed from Ruby's stdlib as of 3.0 — needed only for
   # the in-process JWKS server in the test suite.
