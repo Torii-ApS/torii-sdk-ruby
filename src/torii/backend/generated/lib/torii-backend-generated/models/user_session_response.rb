@@ -40,6 +40,9 @@ module ToriiBackendGenerated
     # When this session was last seen by the API (ISO-8601 UTC).
     attr_accessor :last_used_at
 
+    # Active organization pinned to this session (`org_id` claim on re-mint).
+    attr_accessor :active_organization_id
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -50,7 +53,8 @@ module ToriiBackendGenerated
         :'ip_address' => :'ipAddress',
         :'created_at' => :'createdAt',
         :'expires_at' => :'expiresAt',
-        :'last_used_at' => :'lastUsedAt'
+        :'last_used_at' => :'lastUsedAt',
+        :'active_organization_id' => :'activeOrganizationId'
       }
     end
 
@@ -74,7 +78,8 @@ module ToriiBackendGenerated
         :'ip_address' => :'String',
         :'created_at' => :'Time',
         :'expires_at' => :'Time',
-        :'last_used_at' => :'Time'
+        :'last_used_at' => :'Time',
+        :'active_organization_id' => :'String'
       }
     end
 
@@ -83,6 +88,7 @@ module ToriiBackendGenerated
       Set.new([
         :'user_agent',
         :'ip_address',
+        :'active_organization_id'
       ])
     end
 
@@ -144,6 +150,10 @@ module ToriiBackendGenerated
         self.last_used_at = attributes[:'last_used_at']
       else
         self.last_used_at = nil
+      end
+
+      if attributes.key?(:'active_organization_id')
+        self.active_organization_id = attributes[:'active_organization_id']
       end
     end
 
@@ -264,7 +274,8 @@ module ToriiBackendGenerated
           ip_address == o.ip_address &&
           created_at == o.created_at &&
           expires_at == o.expires_at &&
-          last_used_at == o.last_used_at
+          last_used_at == o.last_used_at &&
+          active_organization_id == o.active_organization_id
     end
 
     # @see the `==` method
@@ -276,7 +287,7 @@ module ToriiBackendGenerated
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, user_id, environment_id, user_agent, ip_address, created_at, expires_at, last_used_at].hash
+      [id, user_id, environment_id, user_agent, ip_address, created_at, expires_at, last_used_at, active_organization_id].hash
     end
 
     # Builds the object from hash
