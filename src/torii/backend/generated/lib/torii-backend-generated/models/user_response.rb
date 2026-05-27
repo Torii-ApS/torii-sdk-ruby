@@ -49,6 +49,9 @@ module ToriiBackendGenerated
     # Primary email on the profile, if any. Not guaranteed to be verified.
     attr_accessor :email
 
+    # When this user's primary email was verified, if it has been verified.
+    attr_accessor :email_verified_at
+
     # When this user was deleted, if soft-deleted. Null for active users.
     attr_accessor :deleted_at
 
@@ -88,6 +91,7 @@ module ToriiBackendGenerated
         :'created_at' => :'createdAt',
         :'updated_at' => :'updatedAt',
         :'email' => :'email',
+        :'email_verified_at' => :'emailVerifiedAt',
         :'deleted_at' => :'deletedAt'
       }
     end
@@ -116,6 +120,7 @@ module ToriiBackendGenerated
         :'created_at' => :'Time',
         :'updated_at' => :'Time',
         :'email' => :'String',
+        :'email_verified_at' => :'Time',
         :'deleted_at' => :'Time'
       }
     end
@@ -129,6 +134,7 @@ module ToriiBackendGenerated
         :'address',
         :'date_of_birth',
         :'email',
+        :'email_verified_at',
         :'deleted_at'
       ])
     end
@@ -203,6 +209,10 @@ module ToriiBackendGenerated
         self.email = attributes[:'email']
       end
 
+      if attributes.key?(:'email_verified_at')
+        self.email_verified_at = attributes[:'email_verified_at']
+      end
+
       if attributes.key?(:'deleted_at')
         self.deleted_at = attributes[:'deleted_at']
       end
@@ -245,7 +255,7 @@ module ToriiBackendGenerated
       locale_validator = EnumAttributeValidator.new('String', ["en", "da"])
       return false unless locale_validator.valid?(@locale)
       return false if @status.nil?
-      status_validator = EnumAttributeValidator.new('String', ["pending_verification", "active", "banned", "deleted"])
+      status_validator = EnumAttributeValidator.new('String', ["active", "banned", "deleted"])
       return false unless status_validator.valid?(@status)
       return false if @created_at.nil?
       return false if @updated_at.nil?
@@ -285,7 +295,7 @@ module ToriiBackendGenerated
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] status Object to be assigned
     def status=(status)
-      validator = EnumAttributeValidator.new('String', ["pending_verification", "active", "banned", "deleted"])
+      validator = EnumAttributeValidator.new('String', ["active", "banned", "deleted"])
       unless validator.valid?(status)
         fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
       end
@@ -328,6 +338,7 @@ module ToriiBackendGenerated
           created_at == o.created_at &&
           updated_at == o.updated_at &&
           email == o.email &&
+          email_verified_at == o.email_verified_at &&
           deleted_at == o.deleted_at
     end
 
@@ -340,7 +351,7 @@ module ToriiBackendGenerated
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, environment_id, name, phone, locale, address, date_of_birth, status, created_at, updated_at, email, deleted_at].hash
+      [id, environment_id, name, phone, locale, address, date_of_birth, status, created_at, updated_at, email, email_verified_at, deleted_at].hash
     end
 
     # Builds the object from hash
