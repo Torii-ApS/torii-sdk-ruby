@@ -28,17 +28,13 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          # Use the lowest supported Ruby for the published artifact —
-          # makes sure the gem is consumable on 3.1+.
-          ruby-version: '3.1'
+          # Ruby 3.3 ships RubyGems 3.5, which `rubygems/release-gem@v1`
+          # needs for the `gem exec rubygems-await` / `gem exec sigstore-cli`
+          # subcommands. The published gem's runtime compatibility is set
+          # by `required_ruby_version` in the gemspec — independent of
+          # whatever Ruby builds the artifact here.
+          ruby-version: '3.3'
           bundler-cache: true
-
-      # rubygems/release-gem@v1 calls `gem exec rubygems-await` and signs
-      # via `gem exec sigstore-cli`. `gem exec` was added in RubyGems 3.5;
-      # Ruby 3.1 ships 3.3.x, so we upgrade to get the newer CLI without
-      # changing the runtime artifact.
-      - name: Upgrade RubyGems
-        run: gem update --system --no-document
 
       - name: Assert tag matches gem version
         run: |
