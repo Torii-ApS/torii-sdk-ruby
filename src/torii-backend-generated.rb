@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Bridge shim: the openapi-generator output is vendored under
-# +lib/torii/backend/generated/lib+ to keep it isolated from
+# +src/torii/backend/generated/lib+ to keep it isolated from
 # hand-written code. We add that directory to +$LOAD_PATH+ here and
 # then load the generated entry point so callers can simply
 # +require 'torii-backend-generated'+ from anywhere in the gem.
