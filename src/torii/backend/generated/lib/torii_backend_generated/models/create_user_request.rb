@@ -119,24 +119,18 @@ module ToriiBackendGenerated
         if (value = attributes[:'public_metadata']).is_a?(Hash)
           self.public_metadata = value
         end
-      else
-        self.public_metadata = nil
       end
 
       if attributes.key?(:'private_metadata')
         if (value = attributes[:'private_metadata']).is_a?(Hash)
           self.private_metadata = value
         end
-      else
-        self.private_metadata = nil
       end
 
       if attributes.key?(:'unsafe_metadata')
         if (value = attributes[:'unsafe_metadata']).is_a?(Hash)
           self.unsafe_metadata = value
         end
-      else
-        self.unsafe_metadata = nil
       end
     end
 
@@ -145,18 +139,6 @@ module ToriiBackendGenerated
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      if @public_metadata.nil?
-        invalid_properties.push('invalid value for "public_metadata", public_metadata cannot be nil.')
-      end
-
-      if @private_metadata.nil?
-        invalid_properties.push('invalid value for "private_metadata", private_metadata cannot be nil.')
-      end
-
-      if @unsafe_metadata.nil?
-        invalid_properties.push('invalid value for "unsafe_metadata", unsafe_metadata cannot be nil.')
-      end
-
       invalid_properties
     end
 
@@ -164,40 +146,7 @@ module ToriiBackendGenerated
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      return false if @public_metadata.nil?
-      return false if @private_metadata.nil?
-      return false if @unsafe_metadata.nil?
       true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] public_metadata Value to be assigned
-    def public_metadata=(public_metadata)
-      if public_metadata.nil?
-        fail ArgumentError, 'public_metadata cannot be nil'
-      end
-
-      @public_metadata = public_metadata
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] private_metadata Value to be assigned
-    def private_metadata=(private_metadata)
-      if private_metadata.nil?
-        fail ArgumentError, 'private_metadata cannot be nil'
-      end
-
-      @private_metadata = private_metadata
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] unsafe_metadata Value to be assigned
-    def unsafe_metadata=(unsafe_metadata)
-      if unsafe_metadata.nil?
-        fail ArgumentError, 'unsafe_metadata cannot be nil'
-      end
-
-      @unsafe_metadata = unsafe_metadata
     end
 
     # Checks equality by comparing each attribute.

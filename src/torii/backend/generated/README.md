@@ -57,6 +57,14 @@ Please follow the [installation](#installation) procedure and then run the follo
 # Load the gem
 require 'torii_backend_generated'
 
+# Setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+  # Configure a proc to get access tokens in lieu of the static access_token configuration
+  config.access_token_getter = -> { 'YOUR TOKEN GETTER PROC' } 
+end
+
 api_instance = ToriiBackendGenerated::AllowedOriginsApi.new
 
 begin
@@ -106,5 +114,9 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+### bearerAuth
+
+- **Type**: Bearer authentication
 

@@ -63,7 +63,7 @@ module ToriiBackendGenerated
       return_type = opts[:debug_return_type] || 'ServerUserResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
 
       new_options = opts.merge(
         :operation => :"ServerUsersApi.ban_user",
@@ -131,7 +131,7 @@ module ToriiBackendGenerated
       return_type = opts[:debug_return_type] || 'ServerUserResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
 
       new_options = opts.merge(
         :operation => :"ServerUsersApi.create_user",
@@ -194,7 +194,7 @@ module ToriiBackendGenerated
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
 
       new_options = opts.merge(
         :operation => :"ServerUsersApi.delete_user",
@@ -257,7 +257,7 @@ module ToriiBackendGenerated
       return_type = opts[:debug_return_type] || 'ServerUserResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
 
       new_options = opts.merge(
         :operation => :"ServerUsersApi.get_user",
@@ -327,7 +327,7 @@ module ToriiBackendGenerated
       return_type = opts[:debug_return_type] || 'CursorPageResponseServerUserResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
 
       new_options = opts.merge(
         :operation => :"ServerUsersApi.search_users",
@@ -390,7 +390,7 @@ module ToriiBackendGenerated
       return_type = opts[:debug_return_type] || 'ServerUserResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
 
       new_options = opts.merge(
         :operation => :"ServerUsersApi.unban_user",
@@ -464,7 +464,7 @@ module ToriiBackendGenerated
       return_type = opts[:debug_return_type] || 'ServerUserResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
 
       new_options = opts.merge(
         :operation => :"ServerUsersApi.update_user",
@@ -538,7 +538,7 @@ module ToriiBackendGenerated
       return_type = opts[:debug_return_type] || 'ServerUserResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
 
       new_options = opts.merge(
         :operation => :"ServerUsersApi.update_user_metadata",

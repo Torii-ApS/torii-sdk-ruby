@@ -55,7 +55,7 @@ module ToriiBackendGenerated
       return_type = opts[:debug_return_type] || 'AllowedOriginsResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
 
       new_options = opts.merge(
         :operation => :"AllowedOriginsApi.list",
@@ -123,7 +123,7 @@ module ToriiBackendGenerated
       return_type = opts[:debug_return_type] || 'AllowedOriginsResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
 
       new_options = opts.merge(
         :operation => :"AllowedOriginsApi.set",

@@ -63,7 +63,7 @@ module ToriiBackendGenerated
       return_type = opts[:debug_return_type] || 'Array<UserSessionResponse>'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
 
       new_options = opts.merge(
         :operation => :"ServerSessionsApi.list_sessions",
@@ -126,7 +126,7 @@ module ToriiBackendGenerated
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
 
       new_options = opts.merge(
         :operation => :"ServerSessionsApi.revoke_all_sessions",
@@ -195,7 +195,7 @@ module ToriiBackendGenerated
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
 
       new_options = opts.merge(
         :operation => :"ServerSessionsApi.revoke_session",

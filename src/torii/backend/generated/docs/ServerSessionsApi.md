@@ -22,6 +22,11 @@ Returns all active (unexpired, unrevoked) sessions for the user, ordered by most
 ```ruby
 require 'time'
 require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = ToriiBackendGenerated::ServerSessionsApi.new
 user_id = '01931a73-8b00-7000-8000-000000000000' # String | Identifier of the user whose sessions to list.
@@ -65,7 +70,7 @@ end
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -86,6 +91,11 @@ Immediately revokes every active session for the user. Idempotent.
 ```ruby
 require 'time'
 require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = ToriiBackendGenerated::ServerSessionsApi.new
 user_id = '01931a73-8b00-7000-8000-000000000000' # String | Identifier of the user whose sessions to revoke.
@@ -128,7 +138,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -149,6 +159,11 @@ Revokes a single session by id. Idempotent: returns 204 even if the session was 
 ```ruby
 require 'time'
 require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = ToriiBackendGenerated::ServerSessionsApi.new
 user_id = '01931a73-8b00-7000-8000-000000000000' # String | Identifier of the user who owns the session.
@@ -193,7 +208,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

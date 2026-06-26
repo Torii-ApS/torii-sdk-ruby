@@ -28,14 +28,24 @@ end
 # extend the servlet with a +do_PATCH+ handler that does the capture.
 class PatchCaptureServer
   attr_reader :base_url
-  attr_accessor :last_body
+  attr_accessor :last_body, :last_auth
 
   RESPONSE = JSON.generate(
     id: '00000000-0000-0000-0000-000000000001',
     environmentId: '00000000-0000-0000-0000-000000000002',
+    name: 'Ada Lovelace',
+    firstName: 'Ada',
+    lastName: 'Lovelace',
+    locale: 'en',
     status: 'active',
     createdAt: '2024-01-01T00:00:00Z',
     updatedAt: '2024-01-01T00:00:00Z',
+    email: 'ada@example.com',
+    emailVerifiedAt: nil,
+    deletedAt: nil,
+    publicMetadata: {},
+    privateMetadata: {},
+    unsafeMetadata: {},
   ).freeze
 
   class CaptureServlet < WEBrick::HTTPServlet::AbstractServlet
@@ -46,6 +56,15 @@ class PatchCaptureServer
 
     def do_PATCH(req, res)
       @harness.last_body = req.body
+      @harness.last_auth = req['authorization']
+      res.status = 200
+      res['content-type'] = 'application/json'
+      res.body = RESPONSE
+    end
+
+    def do_POST(req, res)
+      @harness.last_body = req.body
+      @harness.last_auth = req['authorization']
       res.status = 200
       res['content-type'] = 'application/json'
       res.body = RESPONSE
@@ -127,5 +146,18 @@ RSpec.describe Torii::Backend::Client, '#users.update body assembly' do
   it 'raises on an unknown field name' do
     expect { client.users.update(user_id, nope: Torii::Backend::Patch.set('x')) }
       .to raise_error(ArgumentError, /unknown PATCH field/)
+  end
+
+  it 'sends the bearer token on the hand-rolled PATCH path' do
+    client.users.update(user_id, first_name: Torii::Backend::Patch.set('Ada'))
+    # Auth rides the generated bearerAuth scheme + config access token, even
+    # though the body is hand-built via debug_body.
+    expect(server.last_auth).to eq('Bearer sk_test_x')
+  end
+
+  it 'creates via the generated client: omits unset metadata, sends bearer' do
+    client.users.create(email: 'ada@example.com')
+    expect(JSON.parse(server.last_body)).to eq('email' => 'ada@example.com')
+    expect(server.last_auth).to eq('Bearer sk_test_x')
   end
 end

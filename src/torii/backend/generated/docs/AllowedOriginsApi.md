@@ -19,6 +19,11 @@ List escape-hatch origins for this environment
 ```ruby
 require 'time'
 require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = ToriiBackendGenerated::AllowedOriginsApi.new
 
@@ -59,7 +64,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -80,6 +85,11 @@ Full origins incl. non-http schemes (e.g. capacitor://localhost). Replaces the l
 ```ruby
 require 'time'
 require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = ToriiBackendGenerated::AllowedOriginsApi.new
 set_allowed_origins_request = ToriiBackendGenerated::SetAllowedOriginsRequest.new({origins: ['origins_example']}) # SetAllowedOriginsRequest | 
@@ -123,7 +133,7 @@ end
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

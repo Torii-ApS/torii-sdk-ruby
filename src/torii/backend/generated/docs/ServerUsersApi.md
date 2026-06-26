@@ -27,6 +27,11 @@ Marks the user as banned and revokes all their active sessions.
 ```ruby
 require 'time'
 require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = ToriiBackendGenerated::ServerUsersApi.new
 user_id = '01931a73-8b00-7000-8000-000000000000' # String | Identifier of the user to ban.
@@ -70,7 +75,7 @@ end
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -91,9 +96,14 @@ Creates an end-user in your environment. All body fields are optional; supply at
 ```ruby
 require 'time'
 require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = ToriiBackendGenerated::ServerUsersApi.new
-create_user_request = ToriiBackendGenerated::CreateUserRequest.new({public_metadata: { key: 3.56}, private_metadata: { key: 3.56}, unsafe_metadata: { key: 3.56}}) # CreateUserRequest | 
+create_user_request = ToriiBackendGenerated::CreateUserRequest.new # CreateUserRequest | 
 
 begin
   # Create user
@@ -134,7 +144,7 @@ end
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -155,6 +165,11 @@ Soft-deletes the user. Not idempotent at the HTTP layer: the authorization grant
 ```ruby
 require 'time'
 require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = ToriiBackendGenerated::ServerUsersApi.new
 user_id = '01931a73-8b00-7000-8000-000000000000' # String | Identifier of the user to delete.
@@ -197,7 +212,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -218,6 +233,11 @@ Returns the full profile for one end-user.
 ```ruby
 require 'time'
 require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = ToriiBackendGenerated::ServerUsersApi.new
 user_id = '01931a73-8b00-7000-8000-000000000000' # String | Identifier of the user to fetch.
@@ -261,7 +281,7 @@ end
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -282,6 +302,11 @@ Returns a cursor-paginated page of end-users in the environment matching the opt
 ```ruby
 require 'time'
 require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = ToriiBackendGenerated::ServerUsersApi.new
 opts = {
@@ -331,7 +356,7 @@ end
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -352,6 +377,11 @@ Reverses a previous ban. The user can sign in again on next request.
 ```ruby
 require 'time'
 require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = ToriiBackendGenerated::ServerUsersApi.new
 user_id = '01931a73-8b00-7000-8000-000000000000' # String | Identifier of the user to unban.
@@ -395,7 +425,7 @@ end
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -416,6 +446,11 @@ Partial update with tri-state PATCH semantics. Every field in `UpdateUserRequest
 ```ruby
 require 'time'
 require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = ToriiBackendGenerated::ServerUsersApi.new
 user_id = '01931a73-8b00-7000-8000-000000000000' # String | Identifier of the user to update.
@@ -461,7 +496,7 @@ end
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -482,6 +517,11 @@ Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the
 ```ruby
 require 'time'
 require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = ToriiBackendGenerated::ServerUsersApi.new
 user_id = '01931a73-8b00-7000-8000-000000000000' # String | Identifier of the user to update.
@@ -527,7 +567,7 @@ end
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

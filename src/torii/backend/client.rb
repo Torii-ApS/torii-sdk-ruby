@@ -89,7 +89,7 @@ module Torii
           created_after: created_after,
           created_before: created_before,
         )
-        opts = { server_user_search_request: body, header_params: auth_headers }
+        opts = { server_user_search_request: body }
         opts[:limit] = limit unless limit.nil?
         opts[:cursor] = cursor unless cursor.nil?
         result = @api.search_users(opts)
@@ -97,24 +97,29 @@ module Torii
       end
 
       def get(user_id)
-        model_to_hash(@api.get_user(user_id, header_params: auth_headers))
+        model_to_hash(@api.get_user(user_id))
       end
 
-      # Create a user. The three metadata bags are required by the API and
-      # default to an empty object (+{}+) when omitted — a brand-new user has
-      # no metadata to clobber.
+      # Create a user. The metadata bags are optional; omit one to leave it
+      # empty — the server defaults absent bags to +{}+ (a brand-new user has
+      # no metadata to clobber). The generated model drops unset (nil) bags
+      # from the request body.
       def create(email: nil, password: nil, first_name: nil, last_name: nil,
                  public_metadata: nil, private_metadata: nil, unsafe_metadata: nil)
-        body = ToriiBackendGenerated::CreateUserRequest.new(
+        # Forward only the fields the caller set; nil kwargs are dropped so the
+        # wire body stays minimal and the server applies its defaults (e.g. {}
+        # for absent metadata bags).
+        attrs = {
           email: email,
           password: password,
           first_name: first_name,
           last_name: last_name,
-          public_metadata: public_metadata || {},
-          private_metadata: private_metadata || {},
-          unsafe_metadata: unsafe_metadata || {},
-        )
-        model_to_hash(@api.create_user(body, header_params: auth_headers))
+          public_metadata: public_metadata,
+          private_metadata: private_metadata,
+          unsafe_metadata: unsafe_metadata,
+        }.compact
+        body = ToriiBackendGenerated::CreateUserRequest.new(**attrs)
+        model_to_hash(@api.create_user(body))
       end
 
       # PATCH a user. Each kwarg must be a {Torii::Backend::Patch}
@@ -148,12 +153,12 @@ module Torii
         # sending a pre-rendered request body. The generated
         # +UpdateUserRequest+ model strips nil-valued attributes when
         # serialising, which would defeat the +Patch.clear+ case, so we
-        # bypass it and ship our hand-built JSON instead.
+        # bypass it and ship our hand-built JSON instead. Auth still rides the
+        # generated path (bearerAuth + the config access token).
         result = @api.update_user(
           user_id,
           ToriiBackendGenerated::UpdateUserRequest.new,
           debug_body: body.to_json,
-          header_params: auth_headers,
         )
         model_to_hash(result)
       end
@@ -169,23 +174,19 @@ module Torii
       }.freeze
 
       def delete(user_id)
-        @api.delete_user(user_id, header_params: auth_headers)
+        @api.delete_user(user_id)
         nil
       end
 
       def ban(user_id)
-        model_to_hash(@api.ban_user(user_id, header_params: auth_headers))
+        model_to_hash(@api.ban_user(user_id))
       end
 
       def unban(user_id)
-        model_to_hash(@api.unban_user(user_id, header_params: auth_headers))
+        model_to_hash(@api.unban_user(user_id))
       end
 
       private
-
-      def auth_headers
-        { 'Authorization' => "Bearer #{@api_client.config.access_token}" }
-      end
 
       def model_to_hash(model)
         return model if model.nil? || model.is_a?(Hash)
@@ -213,24 +214,18 @@ module Torii
       end
 
       def list_for_user(user_id)
-        result = @api.list_sessions(user_id, header_params: auth_headers)
+        result = @api.list_sessions(user_id)
         (result || []).map { |s| s.respond_to?(:to_hash) ? s.to_hash : s }
       end
 
       def revoke_all_for_user(user_id)
-        @api.revoke_all_sessions(user_id, header_params: auth_headers)
+        @api.revoke_all_sessions(user_id)
         nil
       end
 
       def revoke(user_id, session_id)
-        @api.revoke_session(user_id, session_id, header_params: auth_headers)
+        @api.revoke_session(user_id, session_id)
         nil
-      end
-
-      private
-
-      def auth_headers
-        { 'Authorization' => "Bearer #{@api_client.config.access_token}" }
       end
     end
   end
