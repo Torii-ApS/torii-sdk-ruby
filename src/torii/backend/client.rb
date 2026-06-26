@@ -136,17 +136,21 @@ module Torii
       # JSON keys the server expects (camelCase).
       def update(user_id, **patches)
         body = {}
+        # Source the snake_case -> camelCase mapping from the generated model's
+        # attribute_map, so a new patchable field flows through with zero hand
+        # edits (an unknown field still raises).
+        attribute_map = ToriiBackendGenerated::UpdateUserRequest.attribute_map
         patches.each do |field, patch|
           unless patch.is_a?(Patch)
             raise ArgumentError, "kwarg #{field} must be a Torii::Backend::Patch (got #{patch.class})"
           end
 
-          json_key = PATCH_FIELD_MAP.fetch(field) do
-            raise ArgumentError, "unknown PATCH field: #{field}. Valid: #{PATCH_FIELD_MAP.keys.inspect}"
+          json_key = attribute_map.fetch(field) do
+            raise ArgumentError, "unknown PATCH field: #{field}. Valid: #{attribute_map.keys.inspect}"
           end
 
           # Patch.set(value) emits the key; nil value → JSON null (clear).
-          body[json_key] = patch.value
+          body[json_key.to_s] = patch.value
         end
 
         # +debug_body+ on the generated client is the escape hatch for
@@ -162,16 +166,6 @@ module Torii
         )
         model_to_hash(result)
       end
-
-      # Map of Ruby snake_case kwargs to the JSON keys the server
-      # expects on the PATCH body. Centralised so +update+ can validate
-      # field names with a single +fetch+.
-      PATCH_FIELD_MAP = {
-        first_name: 'firstName',
-        last_name: 'lastName',
-        locale: 'locale',
-        unsafe_metadata: 'unsafeMetadata',
-      }.freeze
 
       def delete(user_id)
         @api.delete_user(user_id)
