@@ -100,14 +100,19 @@ module Torii
         model_to_hash(@api.get_user(user_id, header_params: auth_headers))
       end
 
-      def create(email: nil, name: nil, phone: nil, password: nil, address: nil, date_of_birth: nil)
+      # Create a user. The three metadata bags are required by the API and
+      # default to an empty object (+{}+) when omitted — a brand-new user has
+      # no metadata to clobber.
+      def create(email: nil, password: nil, first_name: nil, last_name: nil,
+                 public_metadata: nil, private_metadata: nil, unsafe_metadata: nil)
         body = ToriiBackendGenerated::CreateUserRequest.new(
           email: email,
-          name: name,
-          phone: phone,
           password: password,
-          address: address,
-          date_of_birth: date_of_birth,
+          first_name: first_name,
+          last_name: last_name,
+          public_metadata: public_metadata || {},
+          private_metadata: private_metadata || {},
+          unsafe_metadata: unsafe_metadata || {},
         )
         model_to_hash(@api.create_user(body, header_params: auth_headers))
       end
@@ -117,12 +122,13 @@ module Torii
       # "explicit nil" on their own, so we use a wrapper:
       #
       #   client.users.update(user_id,
-      #     name: Torii::Backend::Patch.set("Ada"),  # set field
-      #     phone: Torii::Backend::Patch.set(nil),   # null on the wire (clear)
+      #     first_name: Torii::Backend::Patch.set("Ada"),  # set field
+      #     last_name: Torii::Backend::Patch.set(nil),     # null on the wire (clear)
       #   )
       #
-      # Omitted kwargs are left untouched on the server. Field names map
-      # to the JSON keys the server expects (camelCase).
+      # Omitted kwargs are left untouched on the server. Patchable fields:
+      # first_name, last_name, locale, unsafe_metadata. Field names map to the
+      # JSON keys the server expects (camelCase).
       def update(user_id, **patches)
         body = {}
         patches.each do |field, patch|
@@ -156,11 +162,10 @@ module Torii
       # expects on the PATCH body. Centralised so +update+ can validate
       # field names with a single +fetch+.
       PATCH_FIELD_MAP = {
-        name: 'name',
-        phone: 'phone',
+        first_name: 'firstName',
+        last_name: 'lastName',
         locale: 'locale',
-        address: 'address',
-        date_of_birth: 'dateOfBirth',
+        unsafe_metadata: 'unsafeMetadata',
       }.freeze
 
       def delete(user_id)

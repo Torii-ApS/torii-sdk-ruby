@@ -22,7 +22,7 @@ RSpec.describe Torii::Backend::Patch do
 end
 
 # In-process HTTP server that captures the body of the most recent
-# PATCH /api/server/v1/users/{id} call and returns a canned UserResponse.
+# PATCH /api/server/v1/users/{id} call and returns a canned ServerUserResponse.
 # Same WEBrick pattern as +spec/support/jwks_server.rb+; WEBrick's
 # +HTTPRequest+ doesn't list PATCH in its built-in method table, so we
 # extend the servlet with a +do_PATCH+ handler that does the capture.
@@ -78,39 +78,39 @@ RSpec.describe Torii::Backend::Client, '#users.update body assembly' do
   after { server.stop }
 
   it 'omits unset kwargs from the body entirely' do
-    client.users.update(user_id, name: Torii::Backend::Patch.set('Ada'))
+    client.users.update(user_id, first_name: Torii::Backend::Patch.set('Ada'))
     parsed = JSON.parse(server.last_body)
-    expect(parsed).to eq('name' => 'Ada')
+    expect(parsed).to eq('firstName' => 'Ada')
   end
 
   it 'emits JSON null for Patch.set(nil)' do
-    client.users.update(user_id, phone: Torii::Backend::Patch.set(nil))
+    client.users.update(user_id, last_name: Torii::Backend::Patch.set(nil))
     parsed = JSON.parse(server.last_body)
-    expect(parsed).to eq('phone' => nil)
+    expect(parsed).to eq('lastName' => nil)
     # Sanity check the literal wire format includes "null", not just
     # that JSON.parse round-trips to a Ruby nil.
-    expect(server.last_body).to include('"phone":null')
+    expect(server.last_body).to include('"lastName":null')
   end
 
   it 'mixes set value + set nil + omitted in one call' do
     client.users.update(
       user_id,
-      name: Torii::Backend::Patch.set('Ada'),
-      phone: Torii::Backend::Patch.set(nil),
-      # locale, address, date_of_birth all omitted
+      first_name: Torii::Backend::Patch.set('Ada'),
+      last_name: Torii::Backend::Patch.set(nil),
+      # locale, unsafe_metadata omitted
     )
     parsed = JSON.parse(server.last_body)
-    expect(parsed).to eq('name' => 'Ada', 'phone' => nil)
+    expect(parsed).to eq('firstName' => 'Ada', 'lastName' => nil)
   end
 
-  it 'translates snake_case kwargs to camelCase JSON keys' do
+  it 'translates snake_case kwargs to camelCase JSON keys and keeps a bag as an object' do
     client.users.update(
       user_id,
-      date_of_birth: Torii::Backend::Patch.set('1990-01-01'),
+      unsafe_metadata: Torii::Backend::Patch.set({ 'tier' => 'pro' }),
     )
     parsed = JSON.parse(server.last_body)
     expect(parsed).to eq(
-      'dateOfBirth' => '1990-01-01',
+      'unsafeMetadata' => { 'tier' => 'pro' },
     )
   end
 
@@ -120,7 +120,7 @@ RSpec.describe Torii::Backend::Client, '#users.update body assembly' do
   end
 
   it 'raises if a kwarg is not a Patch' do
-    expect { client.users.update(user_id, name: 'Ada') }
+    expect { client.users.update(user_id, first_name: 'Ada') }
       .to raise_error(ArgumentError, /must be a Torii::Backend::Patch/)
   end
 
