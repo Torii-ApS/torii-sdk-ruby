@@ -1,0 +1,62 @@
+name: Release
+
+# Tag-triggered RubyGems publish via OIDC trusted publishing.
+#
+# Prerequisites (one-time, see torii repo docs/Publishing-SDKs.md):
+#   1. rubygems.org account, MFA enabled (gemspec sets rubygems_mfa_required).
+#   2. rubygems.org → profile → "OIDC: API key role" → create role for:
+#        - GitHub repo: Torii-ApS/torii-sdk-ruby
+#        - Workflow: release.yml
+#        - Environment: rubygems
+#   3. GitHub Environment `rubygems` with required reviewer approval.
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write     # for GH release creation
+  id-token: write     # required for OIDC trusted publishing
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: rubygems
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          # Ruby 3.3 ships RubyGems 3.5, which `rubygems/release-gem@v1`
+          # needs for the `gem exec rubygems-await` / `gem exec sigstore-cli`
+          # subcommands. The published gem's runtime compatibility is set
+          # by `required_ruby_version` in the gemspec — independent of
+          # whatever Ruby builds the artifact here.
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Assert tag matches gem version
+        run: |
+          GEM_VERSION=$(ruby -Isrc -e "require 'torii/backend/version'; puts Torii::Backend::VERSION")
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          if [ "$GEM_VERSION" != "$TAG_VERSION" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match gem version ${GEM_VERSION}" >&2
+            exit 1
+          fi
+
+      - name: Test on tagged SHA
+        run: bundle exec rspec
+
+      - name: Build + push gem (OIDC)
+        uses: rubygems/release-gem@v1
+        # No API key — the action exchanges the GitHub-issued ID token
+        # for a short-lived rubygems.org upload token.
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --title "${GITHUB_REF_NAME}" \
+            --generate-notes

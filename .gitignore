@@ -1,0 +1,13 @@
+/.bundle/
+/vendor/bundle/
+/pkg/
+/coverage/
+Gemfile.lock
+*.gem
+.bundle/
+vendor/bundle/
+.ruby-version
+.rspec_status
+.idea/
+.vscode/
+.DS_Store
