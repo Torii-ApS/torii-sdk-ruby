@@ -28,13 +28,13 @@ module ToriiBackendGenerated
     # Last (family) name to seed on the profile.
     attr_accessor :last_name
 
-    # Initial public metadata (SDK-readable, server-written). Max 512 bytes.
+    # Initial public metadata (SDK-readable, server-written). Part of the 8 KB combined metadata budget.
     attr_accessor :public_metadata
 
-    # Initial private metadata (server-only). Max 4096 bytes.
+    # Initial private metadata (server-only). Part of the 8 KB combined metadata budget.
     attr_accessor :private_metadata
 
-    # Initial unsafe metadata (end-user writable). Max 512 bytes.
+    # Initial unsafe metadata (end-user writable). Part of the 8 KB combined metadata budget.
     attr_accessor :unsafe_metadata
 
     # Attribute mapping from ruby-style variable name to JSON key.

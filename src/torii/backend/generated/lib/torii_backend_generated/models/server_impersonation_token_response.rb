@@ -14,49 +14,19 @@ require 'date'
 require 'time'
 
 module ToriiBackendGenerated
-  # PATCH body for updating an end-user. Every field is tri-state: omit the key entirely to leave the field unchanged, send a non-null value to set it, or send JSON null to clear it.
-  class UpdateUserRequest < ApiModelBase
-    # New first (given) name. Send null to clear; omit to leave unchanged.
-    attr_accessor :first_name
+  # A minted impersonation token.
+  class ServerImpersonationTokenResponse < ApiModelBase
+    # The single-use token. Redeem via POST /_torii/auth/session/impersonate.
+    attr_accessor :token
 
-    # New last (family) name. Send null to clear; omit to leave unchanged.
-    attr_accessor :last_name
-
-    # New preferred locale. Send null to clear; omit to leave unchanged.
-    attr_accessor :locale
-
-    # Deep-merges into the user's unsafe metadata (a key set to null removes it); omit to leave unchanged. Counts toward the 8 KB combined metadata budget.
-    attr_accessor :unsafe_metadata
-
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
+    # The token's lifetime in seconds (the resolved value after any override).
+    attr_accessor :expires_in_seconds
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'first_name' => :'firstName',
-        :'last_name' => :'lastName',
-        :'locale' => :'locale',
-        :'unsafe_metadata' => :'unsafeMetadata'
+        :'token' => :'token',
+        :'expires_in_seconds' => :'expiresInSeconds'
       }
     end
 
@@ -73,19 +43,14 @@ module ToriiBackendGenerated
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'first_name' => :'String',
-        :'last_name' => :'String',
-        :'locale' => :'String',
-        :'unsafe_metadata' => :'Hash<String, Object>'
+        :'token' => :'String',
+        :'expires_in_seconds' => :'Integer'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
-        :'first_name',
-        :'last_name',
-        :'locale',
       ])
     end
 
@@ -93,34 +58,28 @@ module ToriiBackendGenerated
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `ToriiBackendGenerated::UpdateUserRequest` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `ToriiBackendGenerated::ServerImpersonationTokenResponse` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       acceptable_attribute_map = self.class.acceptable_attribute_map
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!acceptable_attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `ToriiBackendGenerated::UpdateUserRequest`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `ToriiBackendGenerated::ServerImpersonationTokenResponse`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'first_name')
-        self.first_name = attributes[:'first_name']
+      if attributes.key?(:'token')
+        self.token = attributes[:'token']
+      else
+        self.token = nil
       end
 
-      if attributes.key?(:'last_name')
-        self.last_name = attributes[:'last_name']
-      end
-
-      if attributes.key?(:'locale')
-        self.locale = attributes[:'locale']
-      end
-
-      if attributes.key?(:'unsafe_metadata')
-        if (value = attributes[:'unsafe_metadata']).is_a?(Hash)
-          self.unsafe_metadata = value
-        end
+      if attributes.key?(:'expires_in_seconds')
+        self.expires_in_seconds = attributes[:'expires_in_seconds']
+      else
+        self.expires_in_seconds = nil
       end
     end
 
@@ -129,6 +88,14 @@ module ToriiBackendGenerated
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
+      if @token.nil?
+        invalid_properties.push('invalid value for "token", token cannot be nil.')
+      end
+
+      if @expires_in_seconds.nil?
+        invalid_properties.push('invalid value for "expires_in_seconds", expires_in_seconds cannot be nil.')
+      end
+
       invalid_properties
     end
 
@@ -136,19 +103,29 @@ module ToriiBackendGenerated
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      locale_validator = EnumAttributeValidator.new('String', ["en", "da"])
-      return false unless locale_validator.valid?(@locale)
+      return false if @token.nil?
+      return false if @expires_in_seconds.nil?
       true
     end
 
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] locale Object to be assigned
-    def locale=(locale)
-      validator = EnumAttributeValidator.new('String', ["en", "da"])
-      unless validator.valid?(locale)
-        fail ArgumentError, "invalid value for \"locale\", must be one of #{validator.allowable_values}."
+    # Custom attribute writer method with validation
+    # @param [Object] token Value to be assigned
+    def token=(token)
+      if token.nil?
+        fail ArgumentError, 'token cannot be nil'
       end
-      @locale = locale
+
+      @token = token
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] expires_in_seconds Value to be assigned
+    def expires_in_seconds=(expires_in_seconds)
+      if expires_in_seconds.nil?
+        fail ArgumentError, 'expires_in_seconds cannot be nil'
+      end
+
+      @expires_in_seconds = expires_in_seconds
     end
 
     # Checks equality by comparing each attribute.
@@ -156,10 +133,8 @@ module ToriiBackendGenerated
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          first_name == o.first_name &&
-          last_name == o.last_name &&
-          locale == o.locale &&
-          unsafe_metadata == o.unsafe_metadata
+          token == o.token &&
+          expires_in_seconds == o.expires_in_seconds
     end
 
     # @see the `==` method
@@ -171,7 +146,7 @@ module ToriiBackendGenerated
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [first_name, last_name, locale, unsafe_metadata].hash
+      [token, expires_in_seconds].hash
     end
 
     # Builds the object from hash

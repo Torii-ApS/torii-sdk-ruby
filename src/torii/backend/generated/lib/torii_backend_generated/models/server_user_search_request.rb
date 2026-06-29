@@ -14,12 +14,18 @@ require 'date'
 require 'time'
 
 module ToriiBackendGenerated
-  # Optional filter body for `POST /users/search`. Every field is tri-state: omit to skip that filter, send a value to require it. Fields whose inner type is nullable (currently `name`, `email`) additionally accept JSON null to filter for users where that column is null; the non-nullable `statuses` field rejects null.
+  # Optional filter body for `POST /users/search`. Every field is tri-state: omit to skip that filter, send a value to apply it. The three id-selectors (`userIds`, `emailAddresses`, `email`) resolve users to a set of ids and, when more than one is supplied, are combined with AND (intersection); a supplied id-selector whose resolved set is empty returns an empty page. `name` additionally accepts JSON null to match users with no name; an explicit null or blank `email` contributes no restriction; the non-nullable `statuses` field rejects null.
   class ServerUserSearchRequest < ApiModelBase
     # Filter by name (case-insensitive substring match). Send null to require users with no name.
     attr_accessor :name
 
-    # Filter by primary email (case-insensitive substring match). Send null to require users with no email.
+    # Restrict to these user ids (the explicit batch-by-id lookup), at most 100. AND-combined with the other id-selectors; an empty list returns an empty page.
+    attr_accessor :user_ids
+
+    # Resolve users by exact (case-insensitive) email address (one or more, at most 100). Unlike `email`, never matches a superstring. AND-combined with the other id-selectors; an empty list, or addresses matching nobody, returns an empty page.
+    attr_accessor :email_addresses
+
+    # Filter by primary email (case-insensitive substring match). AND-combined with the other id-selectors. An explicit null or blank value contributes no restriction.
     attr_accessor :email
 
     # Filter by user status. Returns users matching any of the supplied statuses.
@@ -57,6 +63,8 @@ module ToriiBackendGenerated
     def self.attribute_map
       {
         :'name' => :'name',
+        :'user_ids' => :'userIds',
+        :'email_addresses' => :'emailAddresses',
         :'email' => :'email',
         :'statuses' => :'statuses',
         :'created_after' => :'createdAfter',
@@ -78,6 +86,8 @@ module ToriiBackendGenerated
     def self.openapi_types
       {
         :'name' => :'String',
+        :'user_ids' => :'Array<String>',
+        :'email_addresses' => :'Array<String>',
         :'email' => :'String',
         :'statuses' => :'Array<String>',
         :'created_after' => :'Time',
@@ -113,6 +123,18 @@ module ToriiBackendGenerated
 
       if attributes.key?(:'name')
         self.name = attributes[:'name']
+      end
+
+      if attributes.key?(:'user_ids')
+        if (value = attributes[:'user_ids']).is_a?(Array)
+          self.user_ids = value
+        end
+      end
+
+      if attributes.key?(:'email_addresses')
+        if (value = attributes[:'email_addresses']).is_a?(Array)
+          self.email_addresses = value
+        end
       end
 
       if attributes.key?(:'email')
@@ -155,6 +177,8 @@ module ToriiBackendGenerated
       return true if self.equal?(o)
       self.class == o.class &&
           name == o.name &&
+          user_ids == o.user_ids &&
+          email_addresses == o.email_addresses &&
           email == o.email &&
           statuses == o.statuses &&
           created_after == o.created_after &&
@@ -170,7 +194,7 @@ module ToriiBackendGenerated
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, email, statuses, created_after, created_before].hash
+      [name, user_ids, email_addresses, email, statuses, created_after, created_before].hash
     end
 
     # Builds the object from hash

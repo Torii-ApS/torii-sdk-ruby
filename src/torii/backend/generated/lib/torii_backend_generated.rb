@@ -19,9 +19,14 @@ require 'torii_backend_generated/configuration'
 
 # Models
 require 'torii_backend_generated/models/allowed_origins_response'
+require 'torii_backend_generated/models/create_environment_invitation_server_request'
 require 'torii_backend_generated/models/create_user_request'
+require 'torii_backend_generated/models/cursor_page_response_environment_invitation_response'
 require 'torii_backend_generated/models/cursor_page_response_server_user_response'
+require 'torii_backend_generated/models/environment_invitation_response'
 require 'torii_backend_generated/models/problem_detail'
+require 'torii_backend_generated/models/server_impersonation_token_request'
+require 'torii_backend_generated/models/server_impersonation_token_response'
 require 'torii_backend_generated/models/server_user_response'
 require 'torii_backend_generated/models/server_user_search_request'
 require 'torii_backend_generated/models/set_allowed_origins_request'
@@ -31,6 +36,8 @@ require 'torii_backend_generated/models/user_session_response'
 
 # APIs
 require 'torii_backend_generated/api/allowed_origins_api'
+require 'torii_backend_generated/api/invitations_api'
+require 'torii_backend_generated/api/server_impersonation_api'
 require 'torii_backend_generated/api/server_sessions_api'
 require 'torii_backend_generated/api/server_users_api'
 

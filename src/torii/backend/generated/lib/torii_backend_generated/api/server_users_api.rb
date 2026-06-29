@@ -277,7 +277,7 @@ module ToriiBackendGenerated
     end
 
     # Search users
-    # Returns a cursor-paginated page of end-users in the environment matching the optional filters. Filters use the same tri-state PATCH semantics as `UpdateUserRequest`: omit a field to skip that filter, send a value to require it, send null to require null. Uses POST so the filter body can be sent without URL-encoding.
+    # Returns a cursor-paginated page of end-users in the environment matching the optional filters. Uses POST so the filter body can be sent without URL-encoding. Three id-selectors resolve users to a set of ids (`userIds`, the explicit batch-by-id lookup; `emailAddresses`, exact and case-insensitive; `email`, a case-insensitive substring); when more than one is supplied they are combined with AND (intersection). The remaining filters (`name`, `statuses`, `createdAfter`/`createdBefore`) apply on top.
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :limit Maximum number of items in the returned page (default 20). (default to 20)
     # @option opts [String] :cursor Opaque cursor returned by the previous page&#39;s &#x60;nextCursor&#x60;. Omit to fetch the first page.
@@ -289,7 +289,7 @@ module ToriiBackendGenerated
     end
 
     # Search users
-    # Returns a cursor-paginated page of end-users in the environment matching the optional filters. Filters use the same tri-state PATCH semantics as &#x60;UpdateUserRequest&#x60;: omit a field to skip that filter, send a value to require it, send null to require null. Uses POST so the filter body can be sent without URL-encoding.
+    # Returns a cursor-paginated page of end-users in the environment matching the optional filters. Uses POST so the filter body can be sent without URL-encoding. Three id-selectors resolve users to a set of ids (&#x60;userIds&#x60;, the explicit batch-by-id lookup; &#x60;emailAddresses&#x60;, exact and case-insensitive; &#x60;email&#x60;, a case-insensitive substring); when more than one is supplied they are combined with AND (intersection). The remaining filters (&#x60;name&#x60;, &#x60;statuses&#x60;, &#x60;createdAfter&#x60;/&#x60;createdBefore&#x60;) apply on top.
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :limit Maximum number of items in the returned page (default 20). (default to 20)
     # @option opts [String] :cursor Opaque cursor returned by the previous page&#39;s &#x60;nextCursor&#x60;. Omit to fetch the first page.
@@ -484,7 +484,7 @@ module ToriiBackendGenerated
     end
 
     # Update user metadata
-    # Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged result is capped at 512 bytes for `publicMetadata`/`unsafeMetadata` and 4096 bytes for `privateMetadata`.
+    # Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged metadata is capped at 8 KB total across `publicMetadata`, `privateMetadata`, and `unsafeMetadata` combined (no per-bag limit).
     # @param user_id [String] Identifier of the user to update.
     # @param update_user_metadata_request [UpdateUserMetadataRequest] 
     # @param [Hash] opts the optional parameters
@@ -495,7 +495,7 @@ module ToriiBackendGenerated
     end
 
     # Update user metadata
-    # Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged result is capped at 512 bytes for &#x60;publicMetadata&#x60;/&#x60;unsafeMetadata&#x60; and 4096 bytes for &#x60;privateMetadata&#x60;.
+    # Deep-merges into any of the three metadata bags. Each bag is tri-state: omit the key to leave the bag unchanged, or send an object to deep-merge into the existing bag (a key set to null removes it). The merged metadata is capped at 8 KB total across &#x60;publicMetadata&#x60;, &#x60;privateMetadata&#x60;, and &#x60;unsafeMetadata&#x60; combined (no per-bag limit).
     # @param user_id [String] Identifier of the user to update.
     # @param update_user_metadata_request [UpdateUserMetadataRequest] 
     # @param [Hash] opts the optional parameters
