@@ -39,7 +39,7 @@ instance = ToriiBackendGenerated::ServerUserResponse.new(
   email_verified_at: 2026-05-16T09:35:00Z,
   deleted_at: 2026-05-20T12:00:00Z,
   public_metadata: {plan&#x3D;pro},
-  private_metadata: {stripeId&#x3D;cus_123},
+  private_metadata: {billingCustomerId&#x3D;cus_123},
   unsafe_metadata: {onboardingStep&#x3D;2}
 )
 ```

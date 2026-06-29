@@ -85,6 +85,12 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ToriiBackendGenerated::AllowedOriginsApi* | [**list**](docs/AllowedOriginsApi.md#list) | **GET** /api/server/v1/allowed-origins | List escape-hatch origins for this environment
 *ToriiBackendGenerated::AllowedOriginsApi* | [**set**](docs/AllowedOriginsApi.md#set) | **PUT** /api/server/v1/allowed-origins | Replace the escape-hatch origins for this environment
+*ToriiBackendGenerated::InvitationsApi* | [**create**](docs/InvitationsApi.md#create) | **POST** /api/server/v1/invitations | Create an invitation with optional pre-seeded metadata
+*ToriiBackendGenerated::InvitationsApi* | [**get**](docs/InvitationsApi.md#get) | **GET** /api/server/v1/invitations/{invitationId} | Get an invitation by id
+*ToriiBackendGenerated::InvitationsApi* | [**list1**](docs/InvitationsApi.md#list1) | **GET** /api/server/v1/invitations | List invitations for this environment
+*ToriiBackendGenerated::InvitationsApi* | [**resend**](docs/InvitationsApi.md#resend) | **POST** /api/server/v1/invitations/{invitationId}/resend | Resend a pending invitation with a fresh link
+*ToriiBackendGenerated::InvitationsApi* | [**revoke**](docs/InvitationsApi.md#revoke) | **DELETE** /api/server/v1/invitations/{invitationId} | Revoke a pending invitation
+*ToriiBackendGenerated::ServerImpersonationApi* | [**mint_impersonation_token**](docs/ServerImpersonationApi.md#mint_impersonation_token) | **POST** /api/server/v1/users/{userId}/impersonation-token | Mint an impersonation token
 *ToriiBackendGenerated::ServerSessionsApi* | [**list_sessions**](docs/ServerSessionsApi.md#list_sessions) | **GET** /api/server/v1/users/{userId}/sessions | List user sessions
 *ToriiBackendGenerated::ServerSessionsApi* | [**revoke_all_sessions**](docs/ServerSessionsApi.md#revoke_all_sessions) | **DELETE** /api/server/v1/users/{userId}/sessions | Revoke all sessions
 *ToriiBackendGenerated::ServerSessionsApi* | [**revoke_session**](docs/ServerSessionsApi.md#revoke_session) | **DELETE** /api/server/v1/users/{userId}/sessions/{sessionId} | Revoke specific session
@@ -101,9 +107,14 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [ToriiBackendGenerated::AllowedOriginsResponse](docs/AllowedOriginsResponse.md)
+ - [ToriiBackendGenerated::CreateEnvironmentInvitationServerRequest](docs/CreateEnvironmentInvitationServerRequest.md)
  - [ToriiBackendGenerated::CreateUserRequest](docs/CreateUserRequest.md)
+ - [ToriiBackendGenerated::CursorPageResponseEnvironmentInvitationResponse](docs/CursorPageResponseEnvironmentInvitationResponse.md)
  - [ToriiBackendGenerated::CursorPageResponseServerUserResponse](docs/CursorPageResponseServerUserResponse.md)
+ - [ToriiBackendGenerated::EnvironmentInvitationResponse](docs/EnvironmentInvitationResponse.md)
  - [ToriiBackendGenerated::ProblemDetail](docs/ProblemDetail.md)
+ - [ToriiBackendGenerated::ServerImpersonationTokenRequest](docs/ServerImpersonationTokenRequest.md)
+ - [ToriiBackendGenerated::ServerImpersonationTokenResponse](docs/ServerImpersonationTokenResponse.md)
  - [ToriiBackendGenerated::ServerUserResponse](docs/ServerUserResponse.md)
  - [ToriiBackendGenerated::ServerUserSearchRequest](docs/ServerUserSearchRequest.md)
  - [ToriiBackendGenerated::SetAllowedOriginsRequest](docs/SetAllowedOriginsRequest.md)

@@ -16,13 +16,13 @@ require 'time'
 module ToriiBackendGenerated
   # PATCH body for a user's metadata bags. Each bag is tri-state: omit to leave it unchanged, or send an object value. Whether the object merges into or replaces the bag depends on the endpoint (see its operation description).
   class UpdateUserMetadataRequest < ApiModelBase
-    # Public metadata bag: SDK-readable, server-written. Max 512 bytes.
+    # Public metadata bag: SDK-readable, server-written. Part of the 8 KB combined metadata budget.
     attr_accessor :public_metadata
 
-    # Private metadata bag: server-only, never exposed to the SDK or in a JWT. Max 4096 bytes.
+    # Private metadata bag: server-only, never exposed to the SDK or in a JWT. Part of the 8 KB combined metadata budget.
     attr_accessor :private_metadata
 
-    # Unsafe metadata bag: readable and writable by the end-user via the SDK. Max 512 bytes.
+    # Unsafe metadata bag: readable and writable by the end-user via the SDK. Part of the 8 KB combined metadata budget.
     attr_accessor :unsafe_metadata
 
     # Attribute mapping from ruby-style variable name to JSON key.

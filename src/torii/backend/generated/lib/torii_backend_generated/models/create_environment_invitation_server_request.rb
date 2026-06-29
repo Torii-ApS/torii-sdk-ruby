@@ -14,49 +14,25 @@ require 'date'
 require 'time'
 
 module ToriiBackendGenerated
-  # PATCH body for updating an end-user. Every field is tri-state: omit the key entirely to leave the field unchanged, send a non-null value to set it, or send JSON null to clear it.
-  class UpdateUserRequest < ApiModelBase
-    # New first (given) name. Send null to clear; omit to leave unchanged.
-    attr_accessor :first_name
+  class CreateEnvironmentInvitationServerRequest < ApiModelBase
+    attr_accessor :email
 
-    # New last (family) name. Send null to clear; omit to leave unchanged.
-    attr_accessor :last_name
+    attr_accessor :expires_in_days
 
-    # New preferred locale. Send null to clear; omit to leave unchanged.
-    attr_accessor :locale
+    attr_accessor :redirect_url
 
-    # Deep-merges into the user's unsafe metadata (a key set to null removes it); omit to leave unchanged. Counts toward the 8 KB combined metadata budget.
-    attr_accessor :unsafe_metadata
+    attr_accessor :public_metadata
 
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
+    attr_accessor :private_metadata
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'first_name' => :'firstName',
-        :'last_name' => :'lastName',
-        :'locale' => :'locale',
-        :'unsafe_metadata' => :'unsafeMetadata'
+        :'email' => :'email',
+        :'expires_in_days' => :'expiresInDays',
+        :'redirect_url' => :'redirectUrl',
+        :'public_metadata' => :'publicMetadata',
+        :'private_metadata' => :'privateMetadata'
       }
     end
 
@@ -73,19 +49,19 @@ module ToriiBackendGenerated
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'first_name' => :'String',
-        :'last_name' => :'String',
-        :'locale' => :'String',
-        :'unsafe_metadata' => :'Hash<String, Object>'
+        :'email' => :'String',
+        :'expires_in_days' => :'Integer',
+        :'redirect_url' => :'String',
+        :'public_metadata' => :'Hash<String, Object>',
+        :'private_metadata' => :'Hash<String, Object>'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
-        :'first_name',
-        :'last_name',
-        :'locale',
+        :'expires_in_days',
+        :'redirect_url',
       ])
     end
 
@@ -93,34 +69,46 @@ module ToriiBackendGenerated
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `ToriiBackendGenerated::UpdateUserRequest` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `ToriiBackendGenerated::CreateEnvironmentInvitationServerRequest` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       acceptable_attribute_map = self.class.acceptable_attribute_map
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!acceptable_attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `ToriiBackendGenerated::UpdateUserRequest`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `ToriiBackendGenerated::CreateEnvironmentInvitationServerRequest`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'first_name')
-        self.first_name = attributes[:'first_name']
+      if attributes.key?(:'email')
+        self.email = attributes[:'email']
+      else
+        self.email = nil
       end
 
-      if attributes.key?(:'last_name')
-        self.last_name = attributes[:'last_name']
+      if attributes.key?(:'expires_in_days')
+        self.expires_in_days = attributes[:'expires_in_days']
       end
 
-      if attributes.key?(:'locale')
-        self.locale = attributes[:'locale']
+      if attributes.key?(:'redirect_url')
+        self.redirect_url = attributes[:'redirect_url']
       end
 
-      if attributes.key?(:'unsafe_metadata')
-        if (value = attributes[:'unsafe_metadata']).is_a?(Hash)
-          self.unsafe_metadata = value
+      if attributes.key?(:'public_metadata')
+        if (value = attributes[:'public_metadata']).is_a?(Hash)
+          self.public_metadata = value
         end
+      else
+        self.public_metadata = nil
+      end
+
+      if attributes.key?(:'private_metadata')
+        if (value = attributes[:'private_metadata']).is_a?(Hash)
+          self.private_metadata = value
+        end
+      else
+        self.private_metadata = nil
       end
     end
 
@@ -129,6 +117,18 @@ module ToriiBackendGenerated
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
+      if @email.nil?
+        invalid_properties.push('invalid value for "email", email cannot be nil.')
+      end
+
+      if @public_metadata.nil?
+        invalid_properties.push('invalid value for "public_metadata", public_metadata cannot be nil.')
+      end
+
+      if @private_metadata.nil?
+        invalid_properties.push('invalid value for "private_metadata", private_metadata cannot be nil.')
+      end
+
       invalid_properties
     end
 
@@ -136,19 +136,40 @@ module ToriiBackendGenerated
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      locale_validator = EnumAttributeValidator.new('String', ["en", "da"])
-      return false unless locale_validator.valid?(@locale)
+      return false if @email.nil?
+      return false if @public_metadata.nil?
+      return false if @private_metadata.nil?
       true
     end
 
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] locale Object to be assigned
-    def locale=(locale)
-      validator = EnumAttributeValidator.new('String', ["en", "da"])
-      unless validator.valid?(locale)
-        fail ArgumentError, "invalid value for \"locale\", must be one of #{validator.allowable_values}."
+    # Custom attribute writer method with validation
+    # @param [Object] email Value to be assigned
+    def email=(email)
+      if email.nil?
+        fail ArgumentError, 'email cannot be nil'
       end
-      @locale = locale
+
+      @email = email
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] public_metadata Value to be assigned
+    def public_metadata=(public_metadata)
+      if public_metadata.nil?
+        fail ArgumentError, 'public_metadata cannot be nil'
+      end
+
+      @public_metadata = public_metadata
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] private_metadata Value to be assigned
+    def private_metadata=(private_metadata)
+      if private_metadata.nil?
+        fail ArgumentError, 'private_metadata cannot be nil'
+      end
+
+      @private_metadata = private_metadata
     end
 
     # Checks equality by comparing each attribute.
@@ -156,10 +177,11 @@ module ToriiBackendGenerated
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          first_name == o.first_name &&
-          last_name == o.last_name &&
-          locale == o.locale &&
-          unsafe_metadata == o.unsafe_metadata
+          email == o.email &&
+          expires_in_days == o.expires_in_days &&
+          redirect_url == o.redirect_url &&
+          public_metadata == o.public_metadata &&
+          private_metadata == o.private_metadata
     end
 
     # @see the `==` method
@@ -171,7 +193,7 @@ module ToriiBackendGenerated
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [first_name, last_name, locale, unsafe_metadata].hash
+      [email, expires_in_days, redirect_url, public_metadata, private_metadata].hash
     end
 
     # Builds the object from hash
