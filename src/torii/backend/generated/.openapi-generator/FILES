@@ -53,12 +53,5 @@ lib/torii_backend_generated/models/update_user_metadata_request.rb
 lib/torii_backend_generated/models/update_user_request.rb
 lib/torii_backend_generated/models/user_session_response.rb
 lib/torii_backend_generated/version.rb
-spec/api/invitations_api_spec.rb
-spec/api/server_impersonation_api_spec.rb
-spec/models/create_environment_invitation_server_request_spec.rb
-spec/models/cursor_page_response_environment_invitation_response_spec.rb
-spec/models/environment_invitation_response_spec.rb
-spec/models/server_impersonation_token_request_spec.rb
-spec/models/server_impersonation_token_response_spec.rb
 spec/spec_helper.rb
 torii_backend_generated.gemspec
