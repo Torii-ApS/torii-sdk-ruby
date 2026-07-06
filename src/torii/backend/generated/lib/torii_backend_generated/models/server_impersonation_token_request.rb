@@ -22,7 +22,10 @@ module ToriiBackendGenerated
     # Mandatory justification (GDPR purpose limitation); recorded in the audit log on mint and redeem.
     attr_accessor :reason
 
-    # Optional token lifetime in seconds, 60..600. Omit for the 60s default.
+    # Optional post-redeem landing URL for the `url` redeem link; its origin must be in the environment's allowed origins. Omit to default to the environment's first non-wildcard allowed origin.
+    attr_accessor :redirect_url
+
+    # Optional token lifetime in seconds, 60..600. Omit for the 600s default.
     attr_accessor :expires_in_seconds
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -30,6 +33,7 @@ module ToriiBackendGenerated
       {
         :'actor_user_id' => :'actorUserId',
         :'reason' => :'reason',
+        :'redirect_url' => :'redirectUrl',
         :'expires_in_seconds' => :'expiresInSeconds'
       }
     end
@@ -49,6 +53,7 @@ module ToriiBackendGenerated
       {
         :'actor_user_id' => :'String',
         :'reason' => :'String',
+        :'redirect_url' => :'String',
         :'expires_in_seconds' => :'Integer'
       }
     end
@@ -56,6 +61,7 @@ module ToriiBackendGenerated
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'redirect_url',
         :'expires_in_seconds'
       ])
     end
@@ -86,6 +92,10 @@ module ToriiBackendGenerated
         self.reason = attributes[:'reason']
       else
         self.reason = nil
+      end
+
+      if attributes.key?(:'redirect_url')
+        self.redirect_url = attributes[:'redirect_url']
       end
 
       if attributes.key?(:'expires_in_seconds')
@@ -187,6 +197,7 @@ module ToriiBackendGenerated
       self.class == o.class &&
           actor_user_id == o.actor_user_id &&
           reason == o.reason &&
+          redirect_url == o.redirect_url &&
           expires_in_seconds == o.expires_in_seconds
     end
 
@@ -199,7 +210,7 @@ module ToriiBackendGenerated
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [actor_user_id, reason, expires_in_seconds].hash
+      [actor_user_id, reason, redirect_url, expires_in_seconds].hash
     end
 
     # Builds the object from hash

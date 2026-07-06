@@ -20,7 +20,7 @@ module ToriiBackendGenerated
       @api_client = api_client
     end
     # Mint an impersonation token
-    # Creates a single-use, short-lived impersonation token for the target user, attributed to `actorUserId`. Redeem it via `POST /_torii/auth/session/impersonate` to obtain a session and access token as the target user. Counts against the same per-period impersonation quota and usage ledger as the dashboard.
+    # Creates a single-use, short-lived impersonation token for the target user, attributed to `actorUserId`. Redeem it programmatically via `POST /_torii/auth/session/impersonate` (access token in the body), or hand the returned `url` to an operator to open in a browser (establishes the session and redirects to the landing URL). Counts against the same per-period impersonation quota and usage ledger as the dashboard.
     # @param user_id [String] The user to impersonate.
     # @param server_impersonation_token_request [ServerImpersonationTokenRequest] 
     # @param [Hash] opts the optional parameters
@@ -31,7 +31,7 @@ module ToriiBackendGenerated
     end
 
     # Mint an impersonation token
-    # Creates a single-use, short-lived impersonation token for the target user, attributed to &#x60;actorUserId&#x60;. Redeem it via &#x60;POST /_torii/auth/session/impersonate&#x60; to obtain a session and access token as the target user. Counts against the same per-period impersonation quota and usage ledger as the dashboard.
+    # Creates a single-use, short-lived impersonation token for the target user, attributed to &#x60;actorUserId&#x60;. Redeem it programmatically via &#x60;POST /_torii/auth/session/impersonate&#x60; (access token in the body), or hand the returned &#x60;url&#x60; to an operator to open in a browser (establishes the session and redirects to the landing URL). Counts against the same per-period impersonation quota and usage ledger as the dashboard.
     # @param user_id [String] The user to impersonate.
     # @param server_impersonation_token_request [ServerImpersonationTokenRequest] 
     # @param [Hash] opts the optional parameters

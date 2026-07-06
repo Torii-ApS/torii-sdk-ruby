@@ -16,17 +16,21 @@ require 'time'
 module ToriiBackendGenerated
   # A minted impersonation token.
   class ServerImpersonationTokenResponse < ApiModelBase
-    # The single-use token. Redeem via POST /_torii/auth/session/impersonate.
+    # The single-use token. Redeem via POST /_torii/auth/session/impersonate, or hand the ready-to-use `url` to an operator.
     attr_accessor :token
 
     # The token's lifetime in seconds (the resolved value after any override).
     attr_accessor :expires_in_seconds
 
+    # A ready-to-use, navigable redeem link on the environment's Frontend API host. Opening it in a browser establishes the impersonated session and redirects to the landing URL. Backed by the same single-use token. Null when no landing URL could be resolved (no `redirectUrl` given and the environment has no concrete allowed origin) — redeem the `token` via POST instead.
+    attr_accessor :url
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'token' => :'token',
-        :'expires_in_seconds' => :'expiresInSeconds'
+        :'expires_in_seconds' => :'expiresInSeconds',
+        :'url' => :'url'
       }
     end
 
@@ -44,13 +48,15 @@ module ToriiBackendGenerated
     def self.openapi_types
       {
         :'token' => :'String',
-        :'expires_in_seconds' => :'Integer'
+        :'expires_in_seconds' => :'Integer',
+        :'url' => :'String'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'url'
       ])
     end
 
@@ -80,6 +86,10 @@ module ToriiBackendGenerated
         self.expires_in_seconds = attributes[:'expires_in_seconds']
       else
         self.expires_in_seconds = nil
+      end
+
+      if attributes.key?(:'url')
+        self.url = attributes[:'url']
       end
     end
 
@@ -134,7 +144,8 @@ module ToriiBackendGenerated
       return true if self.equal?(o)
       self.class == o.class &&
           token == o.token &&
-          expires_in_seconds == o.expires_in_seconds
+          expires_in_seconds == o.expires_in_seconds &&
+          url == o.url
     end
 
     # @see the `==` method
@@ -146,7 +157,7 @@ module ToriiBackendGenerated
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [token, expires_in_seconds].hash
+      [token, expires_in_seconds, url].hash
     end
 
     # Builds the object from hash
