@@ -12,7 +12,7 @@
 | **created_at** | **Time** | When this session was created (ISO-8601 UTC). |  |
 | **expires_at** | **Time** | When this session expires (ISO-8601 UTC). |  |
 | **last_used_at** | **Time** | When this session was last seen by the API (ISO-8601 UTC). |  |
-| **active_organization_id** | **String** | Active organization pinned to this session (&#x60;org_id&#x60; claim on re-mint). | [optional] |
+| **active_organization_id** | **String** | Active organization pinned to this session (the &#x60;o&#x60; claim on re-mint). | [optional] |
 | **impersonated_by** | **String** | Platform user behind this session when it was established via impersonation; null for normal sign-ins. | [optional] |
 
 ## Example
