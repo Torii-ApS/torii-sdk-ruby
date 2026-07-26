@@ -40,7 +40,7 @@ module ToriiBackendGenerated
     # When this session was last seen by the API (ISO-8601 UTC).
     attr_accessor :last_used_at
 
-    # Active organization pinned to this session (`org_id` claim on re-mint).
+    # Active organization pinned to this session (the `o` claim on re-mint).
     attr_accessor :active_organization_id
 
     # Platform user behind this session when it was established via impersonation; null for normal sign-ins.
