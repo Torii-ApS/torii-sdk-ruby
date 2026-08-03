@@ -69,13 +69,5 @@ lib/torii_backend_generated/models/update_user_metadata_request.rb
 lib/torii_backend_generated/models/update_user_request.rb
 lib/torii_backend_generated/models/user_session_response.rb
 lib/torii_backend_generated/version.rb
-spec/api/server_organizations_api_spec.rb
-spec/models/cursor_page_response_server_organization_member_response_spec.rb
-spec/models/cursor_page_response_server_organization_response_spec.rb
-spec/models/cursor_page_response_server_user_organization_response_spec.rb
-spec/models/server_organization_member_response_spec.rb
-spec/models/server_organization_response_spec.rb
-spec/models/server_user_organization_response_spec.rb
-spec/models/update_organization_metadata_request_spec.rb
 spec/spec_helper.rb
 torii_backend_generated.gemspec
