@@ -37,6 +37,9 @@ module ToriiBackendGenerated
     # Only return users created at or before this instant (ISO-8601 UTC).
     attr_accessor :created_before
 
+    # Only return members of this organization. An organization from another environment matches nobody. Not an id-selector: it is applied as a membership semi-join, so it is never capped and always ANDs with the rest of the filters.
+    attr_accessor :organization_id
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -68,7 +71,8 @@ module ToriiBackendGenerated
         :'email' => :'email',
         :'statuses' => :'statuses',
         :'created_after' => :'createdAfter',
-        :'created_before' => :'createdBefore'
+        :'created_before' => :'createdBefore',
+        :'organization_id' => :'organizationId'
       }
     end
 
@@ -91,7 +95,8 @@ module ToriiBackendGenerated
         :'email' => :'String',
         :'statuses' => :'Array<String>',
         :'created_after' => :'Time',
-        :'created_before' => :'Time'
+        :'created_before' => :'Time',
+        :'organization_id' => :'String'
       }
     end
 
@@ -101,7 +106,8 @@ module ToriiBackendGenerated
         :'name',
         :'email',
         :'created_after',
-        :'created_before'
+        :'created_before',
+        :'organization_id'
       ])
     end
 
@@ -154,6 +160,10 @@ module ToriiBackendGenerated
       if attributes.key?(:'created_before')
         self.created_before = attributes[:'created_before']
       end
+
+      if attributes.key?(:'organization_id')
+        self.organization_id = attributes[:'organization_id']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -182,7 +192,8 @@ module ToriiBackendGenerated
           email == o.email &&
           statuses == o.statuses &&
           created_after == o.created_after &&
-          created_before == o.created_before
+          created_before == o.created_before &&
+          organization_id == o.organization_id
     end
 
     # @see the `==` method
@@ -194,7 +205,7 @@ module ToriiBackendGenerated
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, user_ids, email_addresses, email, statuses, created_after, created_before].hash
+      [name, user_ids, email_addresses, email, statuses, created_after, created_before, organization_id].hash
     end
 
     # Builds the object from hash

@@ -8,6 +8,7 @@ All URIs are relative to *https://api.torii.so*
 | [**create_user**](ServerUsersApi.md#create_user) | **POST** /api/server/v1/users | Create user |
 | [**delete_user**](ServerUsersApi.md#delete_user) | **DELETE** /api/server/v1/users/{userId} | Delete user |
 | [**get_user**](ServerUsersApi.md#get_user) | **GET** /api/server/v1/users/{userId} | Get user |
+| [**list_user_organizations**](ServerUsersApi.md#list_user_organizations) | **GET** /api/server/v1/users/{userId}/organizations | List a user&#39;s organizations |
 | [**search_users**](ServerUsersApi.md#search_users) | **POST** /api/server/v1/users/search | Search users |
 | [**unban_user**](ServerUsersApi.md#unban_user) | **POST** /api/server/v1/users/{userId}/unban | Unban user |
 | [**update_user**](ServerUsersApi.md#update_user) | **PATCH** /api/server/v1/users/{userId} | Update user |
@@ -278,6 +279,81 @@ end
 ### Return type
 
 [**ServerUserResponse**](ServerUserResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json, application/problem+json
+
+
+## list_user_organizations
+
+> <CursorPageResponseServerUserOrganizationResponse> list_user_organizations(user_id, opts)
+
+List a user's organizations
+
+Returns a cursor-paginated page of the organizations this user is a member of, with the user's role in each and that membership's metadata bags. The mirror image of listing an organization's members. Note the bags are the MEMBERSHIP's, not the organization's: read the organization itself for those.
+
+### Examples
+
+```ruby
+require 'time'
+require 'torii_backend_generated'
+# setup authorization
+ToriiBackendGenerated.configure do |config|
+  # Configure Bearer authorization: bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
+
+api_instance = ToriiBackendGenerated::ServerUsersApi.new
+user_id = '01931a73-8b00-7000-8000-000000000000' # String | Identifier of the user whose organizations to list.
+opts = {
+  limit: 50, # Integer | Maximum number of items in the returned page (default 20).
+  cursor: '01931a73-8b00-7000-8000-000000000000' # String | Opaque cursor returned by the previous page's `nextCursor`. Omit to fetch the first page.
+}
+
+begin
+  # List a user's organizations
+  result = api_instance.list_user_organizations(user_id, opts)
+  p result
+rescue ToriiBackendGenerated::ApiError => e
+  puts "Error when calling ServerUsersApi->list_user_organizations: #{e}"
+end
+```
+
+#### Using the list_user_organizations_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<CursorPageResponseServerUserOrganizationResponse>, Integer, Hash)> list_user_organizations_with_http_info(user_id, opts)
+
+```ruby
+begin
+  # List a user's organizations
+  data, status_code, headers = api_instance.list_user_organizations_with_http_info(user_id, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <CursorPageResponseServerUserOrganizationResponse>
+rescue ToriiBackendGenerated::ApiError => e
+  puts "Error when calling ServerUsersApi->list_user_organizations_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **user_id** | **String** | Identifier of the user whose organizations to list. |  |
+| **limit** | **Integer** | Maximum number of items in the returned page (default 20). | [optional][default to 20] |
+| **cursor** | **String** | Opaque cursor returned by the previous page&#39;s &#x60;nextCursor&#x60;. Omit to fetch the first page. | [optional] |
+
+### Return type
+
+[**CursorPageResponseServerUserOrganizationResponse**](CursorPageResponseServerUserOrganizationResponse.md)
 
 ### Authorization
 
