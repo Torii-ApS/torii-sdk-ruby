@@ -276,6 +276,75 @@ module ToriiBackendGenerated
       return data, status_code, headers
     end
 
+    # List a user's organizations
+    # Returns a cursor-paginated page of the organizations this user is a member of, with the user's role in each and that membership's metadata bags. The mirror image of listing an organization's members. Note the bags are the MEMBERSHIP's, not the organization's: read the organization itself for those.
+    # @param user_id [String] Identifier of the user whose organizations to list.
+    # @param [Hash] opts the optional parameters
+    # @option opts [Integer] :limit Maximum number of items in the returned page (default 20). (default to 20)
+    # @option opts [String] :cursor Opaque cursor returned by the previous page&#39;s &#x60;nextCursor&#x60;. Omit to fetch the first page.
+    # @return [CursorPageResponseServerUserOrganizationResponse]
+    def list_user_organizations(user_id, opts = {})
+      data, _status_code, _headers = list_user_organizations_with_http_info(user_id, opts)
+      data
+    end
+
+    # List a user&#39;s organizations
+    # Returns a cursor-paginated page of the organizations this user is a member of, with the user&#39;s role in each and that membership&#39;s metadata bags. The mirror image of listing an organization&#39;s members. Note the bags are the MEMBERSHIP&#39;s, not the organization&#39;s: read the organization itself for those.
+    # @param user_id [String] Identifier of the user whose organizations to list.
+    # @param [Hash] opts the optional parameters
+    # @option opts [Integer] :limit Maximum number of items in the returned page (default 20). (default to 20)
+    # @option opts [String] :cursor Opaque cursor returned by the previous page&#39;s &#x60;nextCursor&#x60;. Omit to fetch the first page.
+    # @return [Array<(CursorPageResponseServerUserOrganizationResponse, Integer, Hash)>] CursorPageResponseServerUserOrganizationResponse data, response status code and response headers
+    def list_user_organizations_with_http_info(user_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: ServerUsersApi.list_user_organizations ...'
+      end
+      # verify the required parameter 'user_id' is set
+      if @api_client.config.client_side_validation && user_id.nil?
+        fail ArgumentError, "Missing the required parameter 'user_id' when calling ServerUsersApi.list_user_organizations"
+      end
+      # resource path
+      local_var_path = '/api/server/v1/users/{userId}/organizations'.sub('{userId}', CGI.escape(user_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+      query_params[:'cursor'] = opts[:'cursor'] if !opts[:'cursor'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'application/problem+json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'CursorPageResponseServerUserOrganizationResponse'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
+
+      new_options = opts.merge(
+        :operation => :"ServerUsersApi.list_user_organizations",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: ServerUsersApi#list_user_organizations\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Search users
     # Returns a cursor-paginated page of end-users in the environment matching the optional filters. Uses POST so the filter body can be sent without URL-encoding. Three id-selectors resolve users to a set of ids (`userIds`, the explicit batch-by-id lookup; `emailAddresses`, exact and case-insensitive; `email`, a case-insensitive substring); when more than one is supplied they are combined with AND (intersection). The remaining filters (`name`, `statuses`, `createdAfter`/`createdBefore`) apply on top.
     # @param [Hash] opts the optional parameters

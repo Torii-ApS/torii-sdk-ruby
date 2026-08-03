@@ -14,23 +14,18 @@ require 'date'
 require 'time'
 
 module ToriiBackendGenerated
-  # A minted impersonation token.
-  class ServerImpersonationTokenResponse < ApiModelBase
-    # The single-use token. Redeem via POST /_torii/auth/session/impersonate, or hand the ready-to-use `url` to an operator.
-    attr_accessor :token
+  class UpdateOrganizationMetadataRequest < ApiModelBase
+    # Public metadata bag. An organization's bag is readable over the client API by any member; a MEMBERSHIP's bags are server-plane only and are never returned on a client-facing read. Capped at 8 KB on its own.
+    attr_accessor :public_metadata
 
-    # The token's lifetime in seconds (the resolved value after any override).
-    attr_accessor :expires_in_seconds
-
-    # A ready-to-use, navigable redeem link on the environment's Frontend API host. Opening it in a browser establishes the impersonated session and redirects to the landing URL. Backed by the same single-use token. Null when no landing URL could be resolved: no `redirectUrl` given and the environment has no concrete allowed origin other than the hosted portal's own — redeem the `token` via POST instead.
-    attr_accessor :url
+    # Private metadata bag: server-only. Never exposed to the SDK, never in a JWT. Capped at 8 KB on its own.
+    attr_accessor :private_metadata
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'token' => :'token',
-        :'expires_in_seconds' => :'expiresInSeconds',
-        :'url' => :'url'
+        :'public_metadata' => :'publicMetadata',
+        :'private_metadata' => :'privateMetadata'
       }
     end
 
@@ -47,16 +42,14 @@ module ToriiBackendGenerated
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'token' => :'String',
-        :'expires_in_seconds' => :'Integer',
-        :'url' => :'String'
+        :'public_metadata' => :'Hash<String, Object>',
+        :'private_metadata' => :'Hash<String, Object>'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
-        :'url'
       ])
     end
 
@@ -64,32 +57,28 @@ module ToriiBackendGenerated
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `ToriiBackendGenerated::ServerImpersonationTokenResponse` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `ToriiBackendGenerated::UpdateOrganizationMetadataRequest` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       acceptable_attribute_map = self.class.acceptable_attribute_map
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!acceptable_attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `ToriiBackendGenerated::ServerImpersonationTokenResponse`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `ToriiBackendGenerated::UpdateOrganizationMetadataRequest`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'token')
-        self.token = attributes[:'token']
-      else
-        self.token = nil
+      if attributes.key?(:'public_metadata')
+        if (value = attributes[:'public_metadata']).is_a?(Hash)
+          self.public_metadata = value
+        end
       end
 
-      if attributes.key?(:'expires_in_seconds')
-        self.expires_in_seconds = attributes[:'expires_in_seconds']
-      else
-        self.expires_in_seconds = nil
-      end
-
-      if attributes.key?(:'url')
-        self.url = attributes[:'url']
+      if attributes.key?(:'private_metadata')
+        if (value = attributes[:'private_metadata']).is_a?(Hash)
+          self.private_metadata = value
+        end
       end
     end
 
@@ -98,14 +87,6 @@ module ToriiBackendGenerated
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      if @token.nil?
-        invalid_properties.push('invalid value for "token", token cannot be nil.')
-      end
-
-      if @expires_in_seconds.nil?
-        invalid_properties.push('invalid value for "expires_in_seconds", expires_in_seconds cannot be nil.')
-      end
-
       invalid_properties
     end
 
@@ -113,29 +94,7 @@ module ToriiBackendGenerated
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      return false if @token.nil?
-      return false if @expires_in_seconds.nil?
       true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] token Value to be assigned
-    def token=(token)
-      if token.nil?
-        fail ArgumentError, 'token cannot be nil'
-      end
-
-      @token = token
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] expires_in_seconds Value to be assigned
-    def expires_in_seconds=(expires_in_seconds)
-      if expires_in_seconds.nil?
-        fail ArgumentError, 'expires_in_seconds cannot be nil'
-      end
-
-      @expires_in_seconds = expires_in_seconds
     end
 
     # Checks equality by comparing each attribute.
@@ -143,9 +102,8 @@ module ToriiBackendGenerated
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          token == o.token &&
-          expires_in_seconds == o.expires_in_seconds &&
-          url == o.url
+          public_metadata == o.public_metadata &&
+          private_metadata == o.private_metadata
     end
 
     # @see the `==` method
@@ -157,7 +115,7 @@ module ToriiBackendGenerated
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [token, expires_in_seconds, url].hash
+      [public_metadata, private_metadata].hash
     end
 
     # Builds the object from hash

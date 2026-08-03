@@ -14,23 +14,23 @@ require 'date'
 require 'time'
 
 module ToriiBackendGenerated
-  # A minted impersonation token.
-  class ServerImpersonationTokenResponse < ApiModelBase
-    # The single-use token. Redeem via POST /_torii/auth/session/impersonate, or hand the ready-to-use `url` to an operator.
-    attr_accessor :token
+  # A single page of results in a cursor-paginated list. Pass `nextCursor` as the `cursor` query parameter to fetch the following page.
+  class CursorPageResponseServerUserOrganizationResponse < ApiModelBase
+    # Items in this page, in stable order.
+    attr_accessor :items
 
-    # The token's lifetime in seconds (the resolved value after any override).
-    attr_accessor :expires_in_seconds
+    # Cursor to pass to fetch the next page. Null when this is the last page.
+    attr_accessor :next_cursor
 
-    # A ready-to-use, navigable redeem link on the environment's Frontend API host. Opening it in a browser establishes the impersonated session and redirects to the landing URL. Backed by the same single-use token. Null when no landing URL could be resolved: no `redirectUrl` given and the environment has no concrete allowed origin other than the hosted portal's own — redeem the `token` via POST instead.
-    attr_accessor :url
+    # True if more pages are available (equivalent to `nextCursor != null`).
+    attr_accessor :has_more
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'token' => :'token',
-        :'expires_in_seconds' => :'expiresInSeconds',
-        :'url' => :'url'
+        :'items' => :'items',
+        :'next_cursor' => :'nextCursor',
+        :'has_more' => :'hasMore'
       }
     end
 
@@ -47,16 +47,16 @@ module ToriiBackendGenerated
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'token' => :'String',
-        :'expires_in_seconds' => :'Integer',
-        :'url' => :'String'
+        :'items' => :'Array<ServerUserOrganizationResponse>',
+        :'next_cursor' => :'String',
+        :'has_more' => :'Boolean'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
-        :'url'
+        :'next_cursor',
       ])
     end
 
@@ -64,32 +64,34 @@ module ToriiBackendGenerated
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `ToriiBackendGenerated::ServerImpersonationTokenResponse` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `ToriiBackendGenerated::CursorPageResponseServerUserOrganizationResponse` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       acceptable_attribute_map = self.class.acceptable_attribute_map
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!acceptable_attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `ToriiBackendGenerated::ServerImpersonationTokenResponse`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `ToriiBackendGenerated::CursorPageResponseServerUserOrganizationResponse`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'token')
-        self.token = attributes[:'token']
+      if attributes.key?(:'items')
+        if (value = attributes[:'items']).is_a?(Array)
+          self.items = value
+        end
       else
-        self.token = nil
+        self.items = nil
       end
 
-      if attributes.key?(:'expires_in_seconds')
-        self.expires_in_seconds = attributes[:'expires_in_seconds']
-      else
-        self.expires_in_seconds = nil
+      if attributes.key?(:'next_cursor')
+        self.next_cursor = attributes[:'next_cursor']
       end
 
-      if attributes.key?(:'url')
-        self.url = attributes[:'url']
+      if attributes.key?(:'has_more')
+        self.has_more = attributes[:'has_more']
+      else
+        self.has_more = nil
       end
     end
 
@@ -98,12 +100,12 @@ module ToriiBackendGenerated
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      if @token.nil?
-        invalid_properties.push('invalid value for "token", token cannot be nil.')
+      if @items.nil?
+        invalid_properties.push('invalid value for "items", items cannot be nil.')
       end
 
-      if @expires_in_seconds.nil?
-        invalid_properties.push('invalid value for "expires_in_seconds", expires_in_seconds cannot be nil.')
+      if @has_more.nil?
+        invalid_properties.push('invalid value for "has_more", has_more cannot be nil.')
       end
 
       invalid_properties
@@ -113,29 +115,29 @@ module ToriiBackendGenerated
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      return false if @token.nil?
-      return false if @expires_in_seconds.nil?
+      return false if @items.nil?
+      return false if @has_more.nil?
       true
     end
 
     # Custom attribute writer method with validation
-    # @param [Object] token Value to be assigned
-    def token=(token)
-      if token.nil?
-        fail ArgumentError, 'token cannot be nil'
+    # @param [Object] items Value to be assigned
+    def items=(items)
+      if items.nil?
+        fail ArgumentError, 'items cannot be nil'
       end
 
-      @token = token
+      @items = items
     end
 
     # Custom attribute writer method with validation
-    # @param [Object] expires_in_seconds Value to be assigned
-    def expires_in_seconds=(expires_in_seconds)
-      if expires_in_seconds.nil?
-        fail ArgumentError, 'expires_in_seconds cannot be nil'
+    # @param [Object] has_more Value to be assigned
+    def has_more=(has_more)
+      if has_more.nil?
+        fail ArgumentError, 'has_more cannot be nil'
       end
 
-      @expires_in_seconds = expires_in_seconds
+      @has_more = has_more
     end
 
     # Checks equality by comparing each attribute.
@@ -143,9 +145,9 @@ module ToriiBackendGenerated
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          token == o.token &&
-          expires_in_seconds == o.expires_in_seconds &&
-          url == o.url
+          items == o.items &&
+          next_cursor == o.next_cursor &&
+          has_more == o.has_more
     end
 
     # @see the `==` method
@@ -157,7 +159,7 @@ module ToriiBackendGenerated
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [token, expires_in_seconds, url].hash
+      [items, next_cursor, has_more].hash
     end
 
     # Builds the object from hash

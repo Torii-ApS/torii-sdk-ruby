@@ -91,6 +91,11 @@ Class | Method | HTTP request | Description
 *ToriiBackendGenerated::InvitationsApi* | [**resend**](docs/InvitationsApi.md#resend) | **POST** /api/server/v1/invitations/{invitationId}/resend | Resend a pending invitation with a fresh link
 *ToriiBackendGenerated::InvitationsApi* | [**revoke**](docs/InvitationsApi.md#revoke) | **DELETE** /api/server/v1/invitations/{invitationId} | Revoke a pending invitation
 *ToriiBackendGenerated::ServerImpersonationApi* | [**mint_impersonation_token**](docs/ServerImpersonationApi.md#mint_impersonation_token) | **POST** /api/server/v1/users/{userId}/impersonation-token | Mint an impersonation token
+*ToriiBackendGenerated::ServerOrganizationsApi* | [**get_organization**](docs/ServerOrganizationsApi.md#get_organization) | **GET** /api/server/v1/organizations/{organizationId} | Get an organization
+*ToriiBackendGenerated::ServerOrganizationsApi* | [**list_members**](docs/ServerOrganizationsApi.md#list_members) | **GET** /api/server/v1/organizations/{organizationId}/members | List organization members
+*ToriiBackendGenerated::ServerOrganizationsApi* | [**list_organizations**](docs/ServerOrganizationsApi.md#list_organizations) | **GET** /api/server/v1/organizations | List organizations
+*ToriiBackendGenerated::ServerOrganizationsApi* | [**update_member_metadata**](docs/ServerOrganizationsApi.md#update_member_metadata) | **PATCH** /api/server/v1/organizations/{organizationId}/members/{memberUserId}/metadata | Update organization membership metadata
+*ToriiBackendGenerated::ServerOrganizationsApi* | [**update_organization_metadata**](docs/ServerOrganizationsApi.md#update_organization_metadata) | **PATCH** /api/server/v1/organizations/{organizationId}/metadata | Update organization metadata
 *ToriiBackendGenerated::ServerSessionsApi* | [**list_sessions**](docs/ServerSessionsApi.md#list_sessions) | **GET** /api/server/v1/users/{userId}/sessions | List user sessions
 *ToriiBackendGenerated::ServerSessionsApi* | [**revoke_all_sessions**](docs/ServerSessionsApi.md#revoke_all_sessions) | **DELETE** /api/server/v1/users/{userId}/sessions | Revoke all sessions
 *ToriiBackendGenerated::ServerSessionsApi* | [**revoke_session**](docs/ServerSessionsApi.md#revoke_session) | **DELETE** /api/server/v1/users/{userId}/sessions/{sessionId} | Revoke specific session
@@ -98,6 +103,7 @@ Class | Method | HTTP request | Description
 *ToriiBackendGenerated::ServerUsersApi* | [**create_user**](docs/ServerUsersApi.md#create_user) | **POST** /api/server/v1/users | Create user
 *ToriiBackendGenerated::ServerUsersApi* | [**delete_user**](docs/ServerUsersApi.md#delete_user) | **DELETE** /api/server/v1/users/{userId} | Delete user
 *ToriiBackendGenerated::ServerUsersApi* | [**get_user**](docs/ServerUsersApi.md#get_user) | **GET** /api/server/v1/users/{userId} | Get user
+*ToriiBackendGenerated::ServerUsersApi* | [**list_user_organizations**](docs/ServerUsersApi.md#list_user_organizations) | **GET** /api/server/v1/users/{userId}/organizations | List a user's organizations
 *ToriiBackendGenerated::ServerUsersApi* | [**search_users**](docs/ServerUsersApi.md#search_users) | **POST** /api/server/v1/users/search | Search users
 *ToriiBackendGenerated::ServerUsersApi* | [**unban_user**](docs/ServerUsersApi.md#unban_user) | **POST** /api/server/v1/users/{userId}/unban | Unban user
 *ToriiBackendGenerated::ServerUsersApi* | [**update_user**](docs/ServerUsersApi.md#update_user) | **PATCH** /api/server/v1/users/{userId} | Update user
@@ -110,14 +116,21 @@ Class | Method | HTTP request | Description
  - [ToriiBackendGenerated::CreateEnvironmentInvitationServerRequest](docs/CreateEnvironmentInvitationServerRequest.md)
  - [ToriiBackendGenerated::CreateUserRequest](docs/CreateUserRequest.md)
  - [ToriiBackendGenerated::CursorPageResponseEnvironmentInvitationResponse](docs/CursorPageResponseEnvironmentInvitationResponse.md)
+ - [ToriiBackendGenerated::CursorPageResponseServerOrganizationMemberResponse](docs/CursorPageResponseServerOrganizationMemberResponse.md)
+ - [ToriiBackendGenerated::CursorPageResponseServerOrganizationResponse](docs/CursorPageResponseServerOrganizationResponse.md)
+ - [ToriiBackendGenerated::CursorPageResponseServerUserOrganizationResponse](docs/CursorPageResponseServerUserOrganizationResponse.md)
  - [ToriiBackendGenerated::CursorPageResponseServerUserResponse](docs/CursorPageResponseServerUserResponse.md)
  - [ToriiBackendGenerated::EnvironmentInvitationResponse](docs/EnvironmentInvitationResponse.md)
  - [ToriiBackendGenerated::ProblemDetail](docs/ProblemDetail.md)
  - [ToriiBackendGenerated::ServerImpersonationTokenRequest](docs/ServerImpersonationTokenRequest.md)
  - [ToriiBackendGenerated::ServerImpersonationTokenResponse](docs/ServerImpersonationTokenResponse.md)
+ - [ToriiBackendGenerated::ServerOrganizationMemberResponse](docs/ServerOrganizationMemberResponse.md)
+ - [ToriiBackendGenerated::ServerOrganizationResponse](docs/ServerOrganizationResponse.md)
+ - [ToriiBackendGenerated::ServerUserOrganizationResponse](docs/ServerUserOrganizationResponse.md)
  - [ToriiBackendGenerated::ServerUserResponse](docs/ServerUserResponse.md)
  - [ToriiBackendGenerated::ServerUserSearchRequest](docs/ServerUserSearchRequest.md)
  - [ToriiBackendGenerated::SetAllowedOriginsRequest](docs/SetAllowedOriginsRequest.md)
+ - [ToriiBackendGenerated::UpdateOrganizationMetadataRequest](docs/UpdateOrganizationMetadataRequest.md)
  - [ToriiBackendGenerated::UpdateUserMetadataRequest](docs/UpdateUserMetadataRequest.md)
  - [ToriiBackendGenerated::UpdateUserRequest](docs/UpdateUserRequest.md)
  - [ToriiBackendGenerated::UserSessionResponse](docs/UserSessionResponse.md)
