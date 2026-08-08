@@ -22,7 +22,7 @@ module ToriiBackendGenerated
     # Mandatory justification (GDPR purpose limitation); recorded in the audit log on mint and redeem.
     attr_accessor :reason
 
-    # Optional post-redeem landing URL for the `url` redeem link; its origin must be in the environment's allowed origins. Omit to default to the environment's first non-wildcard allowed origin.
+    # Optional post-redeem landing URL for the `url` redeem link; its origin must be in the environment's allowed origins. Unlike the dashboard link this plane appends nothing to it, so a fragment is fine. Omit to use the environment's configured impersonation landing URL.
     attr_accessor :redirect_url
 
     # Optional token lifetime in seconds, 60..600. Omit for the 600s default.

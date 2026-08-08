@@ -158,7 +158,7 @@ module ToriiBackendGenerated
 
     def initialize
       @scheme = 'https'
-      @host = 'api.torii.so'
+      @host = 'api.toriiauth.eu'
       @base_path = ''
       @server_index = nil
       @server_operation_index = {}
@@ -258,7 +258,7 @@ module ToriiBackendGenerated
     def server_settings
       [
         {
-          url: "https://api.torii.so",
+          url: "https://api.toriiauth.eu",
           description: "Production backend API",
         }
       ]

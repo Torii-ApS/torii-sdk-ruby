@@ -6,7 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **actor_user_id** | **String** | The principal the impersonation is on behalf of (recorded for accountability). Must be a user in this environment. |  |
 | **reason** | **String** | Mandatory justification (GDPR purpose limitation); recorded in the audit log on mint and redeem. |  |
-| **redirect_url** | **String** | Optional post-redeem landing URL for the &#x60;url&#x60; redeem link; its origin must be in the environment&#39;s allowed origins. Omit to default to the environment&#39;s first non-wildcard allowed origin. | [optional] |
+| **redirect_url** | **String** | Optional post-redeem landing URL for the &#x60;url&#x60; redeem link; its origin must be in the environment&#39;s allowed origins. Unlike the dashboard link this plane appends nothing to it, so a fragment is fine. Omit to use the environment&#39;s configured impersonation landing URL. | [optional] |
 | **expires_in_seconds** | **Integer** | Optional token lifetime in seconds, 60..600. Omit for the 600s default. | [optional] |
 
 ## Example
