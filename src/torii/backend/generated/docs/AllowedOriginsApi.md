@@ -1,6 +1,6 @@
 # ToriiBackendGenerated::AllowedOriginsApi
 
-All URIs are relative to *https://api.torii.so*
+All URIs are relative to *https://api.toriiauth.eu*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |

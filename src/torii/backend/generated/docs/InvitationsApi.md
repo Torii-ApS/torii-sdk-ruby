@@ -1,6 +1,6 @@
 # ToriiBackendGenerated::InvitationsApi
 
-All URIs are relative to *https://api.torii.so*
+All URIs are relative to *https://api.toriiauth.eu*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
@@ -75,7 +75,7 @@ end
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: application/json
+- **Accept**: application/json, application/problem+json
 
 
 ## get
