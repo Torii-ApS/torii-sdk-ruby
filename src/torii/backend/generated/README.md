@@ -86,10 +86,11 @@ Class | Method | HTTP request | Description
 *ToriiBackendGenerated::AllowedOriginsApi* | [**list**](docs/AllowedOriginsApi.md#list) | **GET** /api/server/v1/allowed-origins | List escape-hatch origins for this environment
 *ToriiBackendGenerated::AllowedOriginsApi* | [**set**](docs/AllowedOriginsApi.md#set) | **PUT** /api/server/v1/allowed-origins | Replace the escape-hatch origins for this environment
 *ToriiBackendGenerated::InvitationsApi* | [**create**](docs/InvitationsApi.md#create) | **POST** /api/server/v1/invitations | Create an invitation with optional pre-seeded metadata
-*ToriiBackendGenerated::InvitationsApi* | [**get**](docs/InvitationsApi.md#get) | **GET** /api/server/v1/invitations/{invitationId} | Get an invitation by id
+*ToriiBackendGenerated::InvitationsApi* | [**get**](docs/InvitationsApi.md#get) | **GET** /api/server/v1/invitations/{invitationId} | Get an invitation by id, including both metadata bags
 *ToriiBackendGenerated::InvitationsApi* | [**list1**](docs/InvitationsApi.md#list1) | **GET** /api/server/v1/invitations | List invitations for this environment
 *ToriiBackendGenerated::InvitationsApi* | [**resend**](docs/InvitationsApi.md#resend) | **POST** /api/server/v1/invitations/{invitationId}/resend | Resend a pending invitation with a fresh link
 *ToriiBackendGenerated::InvitationsApi* | [**revoke**](docs/InvitationsApi.md#revoke) | **DELETE** /api/server/v1/invitations/{invitationId} | Revoke a pending invitation
+*ToriiBackendGenerated::InvitationsApi* | [**update_metadata**](docs/InvitationsApi.md#update_metadata) | **PATCH** /api/server/v1/invitations/{invitationId} | Deep-merge metadata into a pending invitation
 *ToriiBackendGenerated::ServerImpersonationApi* | [**mint_impersonation_token**](docs/ServerImpersonationApi.md#mint_impersonation_token) | **POST** /api/server/v1/users/{userId}/impersonation-token | Mint an impersonation token
 *ToriiBackendGenerated::ServerOrganizationsApi* | [**get_organization**](docs/ServerOrganizationsApi.md#get_organization) | **GET** /api/server/v1/organizations/{organizationId} | Get an organization
 *ToriiBackendGenerated::ServerOrganizationsApi* | [**list_members**](docs/ServerOrganizationsApi.md#list_members) | **GET** /api/server/v1/organizations/{organizationId}/members | List organization members
@@ -120,6 +121,7 @@ Class | Method | HTTP request | Description
  - [ToriiBackendGenerated::CursorPageResponseServerOrganizationResponse](docs/CursorPageResponseServerOrganizationResponse.md)
  - [ToriiBackendGenerated::CursorPageResponseServerUserOrganizationResponse](docs/CursorPageResponseServerUserOrganizationResponse.md)
  - [ToriiBackendGenerated::CursorPageResponseServerUserResponse](docs/CursorPageResponseServerUserResponse.md)
+ - [ToriiBackendGenerated::EnvironmentInvitationDetailResponse](docs/EnvironmentInvitationDetailResponse.md)
  - [ToriiBackendGenerated::EnvironmentInvitationResponse](docs/EnvironmentInvitationResponse.md)
  - [ToriiBackendGenerated::ProblemDetail](docs/ProblemDetail.md)
  - [ToriiBackendGenerated::ServerImpersonationTokenRequest](docs/ServerImpersonationTokenRequest.md)
@@ -130,6 +132,7 @@ Class | Method | HTTP request | Description
  - [ToriiBackendGenerated::ServerUserResponse](docs/ServerUserResponse.md)
  - [ToriiBackendGenerated::ServerUserSearchRequest](docs/ServerUserSearchRequest.md)
  - [ToriiBackendGenerated::SetAllowedOriginsRequest](docs/SetAllowedOriginsRequest.md)
+ - [ToriiBackendGenerated::UpdateEnvironmentInvitationMetadataRequest](docs/UpdateEnvironmentInvitationMetadataRequest.md)
  - [ToriiBackendGenerated::UpdateOrganizationMetadataRequest](docs/UpdateOrganizationMetadataRequest.md)
  - [ToriiBackendGenerated::UpdateUserMetadataRequest](docs/UpdateUserMetadataRequest.md)
  - [ToriiBackendGenerated::UpdateUserRequest](docs/UpdateUserRequest.md)

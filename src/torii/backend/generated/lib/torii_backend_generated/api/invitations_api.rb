@@ -85,19 +85,19 @@ module ToriiBackendGenerated
       return data, status_code, headers
     end
 
-    # Get an invitation by id
+    # Get an invitation by id, including both metadata bags
     # @param invitation_id [String] 
     # @param [Hash] opts the optional parameters
-    # @return [EnvironmentInvitationResponse]
+    # @return [EnvironmentInvitationDetailResponse]
     def get(invitation_id, opts = {})
       data, _status_code, _headers = get_with_http_info(invitation_id, opts)
       data
     end
 
-    # Get an invitation by id
+    # Get an invitation by id, including both metadata bags
     # @param invitation_id [String] 
     # @param [Hash] opts the optional parameters
-    # @return [Array<(EnvironmentInvitationResponse, Integer, Hash)>] EnvironmentInvitationResponse data, response status code and response headers
+    # @return [Array<(EnvironmentInvitationDetailResponse, Integer, Hash)>] EnvironmentInvitationDetailResponse data, response status code and response headers
     def get_with_http_info(invitation_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: InvitationsApi.get ...'
@@ -124,7 +124,7 @@ module ToriiBackendGenerated
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'EnvironmentInvitationResponse'
+      return_type = opts[:debug_return_type] || 'EnvironmentInvitationDetailResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['bearerAuth']
@@ -329,6 +329,78 @@ module ToriiBackendGenerated
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: InvitationsApi#revoke\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Deep-merge metadata into a pending invitation
+    # @param invitation_id [String] 
+    # @param update_environment_invitation_metadata_request [UpdateEnvironmentInvitationMetadataRequest] 
+    # @param [Hash] opts the optional parameters
+    # @return [EnvironmentInvitationDetailResponse]
+    def update_metadata(invitation_id, update_environment_invitation_metadata_request, opts = {})
+      data, _status_code, _headers = update_metadata_with_http_info(invitation_id, update_environment_invitation_metadata_request, opts)
+      data
+    end
+
+    # Deep-merge metadata into a pending invitation
+    # @param invitation_id [String] 
+    # @param update_environment_invitation_metadata_request [UpdateEnvironmentInvitationMetadataRequest] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(EnvironmentInvitationDetailResponse, Integer, Hash)>] EnvironmentInvitationDetailResponse data, response status code and response headers
+    def update_metadata_with_http_info(invitation_id, update_environment_invitation_metadata_request, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: InvitationsApi.update_metadata ...'
+      end
+      # verify the required parameter 'invitation_id' is set
+      if @api_client.config.client_side_validation && invitation_id.nil?
+        fail ArgumentError, "Missing the required parameter 'invitation_id' when calling InvitationsApi.update_metadata"
+      end
+      # verify the required parameter 'update_environment_invitation_metadata_request' is set
+      if @api_client.config.client_side_validation && update_environment_invitation_metadata_request.nil?
+        fail ArgumentError, "Missing the required parameter 'update_environment_invitation_metadata_request' when calling InvitationsApi.update_metadata"
+      end
+      # resource path
+      local_var_path = '/api/server/v1/invitations/{invitationId}'.sub('{invitationId}', CGI.escape(invitation_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'application/problem+json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(update_environment_invitation_metadata_request)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'EnvironmentInvitationDetailResponse'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['bearerAuth']
+
+      new_options = opts.merge(
+        :operation => :"InvitationsApi.update_metadata",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:PATCH, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: InvitationsApi#update_metadata\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
